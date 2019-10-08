@@ -9,40 +9,35 @@ namespace ARSphere.Controllers
 {
 	public class BaseController : ControllerBase
 	{
-		protected JsonResult IncorrectUsage()
+		protected ResultViewModel IncorrectUsage()
 		{
 			return ErrorResult("Incorrect usage.");
 		}
 
-		protected JsonResult ErrorResult(string message = "Not found.", int code = 404)
+		protected ResultViewModel ErrorResult(string message = "Not found.", int code = 404)
 		{
 			return Result(message, false, code);
 		}
 
-		protected JsonResult MessageResult(string message, bool success = true, int code = 200)
+		protected ResultViewModel MessageResult(string message, bool success = true, int code = 200)
 		{
 			return Result(message, success, code);
 		}
 
-		protected JsonResult SingleResult(BaseViewModel singleResult)
+		protected ResultViewModel SingleResult(BaseViewModel singleResult)
 		{
 			return Result(singleResult);
 		}
 
-		protected JsonResult MultipleResults(IEnumerable<BaseViewModel> multipleResults)
+		protected ResultViewModel MultipleResults(IEnumerable<BaseViewModel> multipleResults)
 		{
 			return Result(multipleResults);
 		}
 
-		protected JsonResult Result(object result, bool success = true, int code = 200)
+		protected ResultViewModel Result(object result, bool success = true, int code = 200)
 		{
 			Response.StatusCode = code;
-
-			return new JsonResult(new
-			{
-				Success = false,
-				Result = result
-			});
+			return new ResultViewModel(success, result);
 		}
 	}
 }
