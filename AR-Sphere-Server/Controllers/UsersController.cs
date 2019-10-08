@@ -1,7 +1,11 @@
 ﻿using ARSphere.Context;
 using ARSphere.DAL;
+using ARSphere.DTO;
 using ARSphere.DTO.Helpers;
 using ARSphere.Entities;
+using ARSphere.Middleware.Validation;
+using ARSphere.Models;
+using ARSphere.Models.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,7 +27,7 @@ namespace ARSphere.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public JsonResult GetById(int id)
+		public ResultViewModel GetById(int id)
 		{
 			var entity = _service.FindById(id);
 
@@ -32,7 +36,14 @@ namespace ARSphere.Controllers
 				return ErrorResult($"User id = {id} does not exist.");
 			}
 
-			return SingleResult(entity.ToViewModel());
+			return SingleResult(entity);
+		}
+
+		[HttpPost]
+		[ValidateModel]
+		public ResultViewModel Test([FromForm] UserModel user)
+		{
+			return Result(user.ToEntity());
 		}
 	}
 }
