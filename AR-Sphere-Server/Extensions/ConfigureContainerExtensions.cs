@@ -1,6 +1,7 @@
 ﻿using ARSphere.Configuration;
 using ARSphere.Context;
 using ARSphere.DAL;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,6 +24,14 @@ namespace ARSphere.Extensions
 		public static void AddTransientServices(this IServiceCollection services)
 		{
 			services.AddTransient<IUserService, UserService>();
+		}
+
+		public static void DisableModelStateValidation(this IServiceCollection services)
+		{
+			services.Configure<ApiBehaviorOptions>(options =>
+			{
+				options.SuppressModelStateInvalidFilter = true;
+			});
 		}
 	}
 }
