@@ -1,5 +1,6 @@
 ﻿using ARSphere.Context;
-using ARSphere.Entities;
+using ARSphere.DTO;
+using ARSphere.DTO.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,17 @@ namespace ARSphere.DAL
 			_context = context;
 		}
 
-		public User FindById(int id)
+		public UserViewModel FindById(int id)
 		{
 			var selection = from user in _context.Users
 							where user.Id == id
 							select user;
-			return selection.Any() ? selection.First() : null;
+			if(!selection.Any())
+			{
+				return null;
+			}
+
+			return selection.First().ToViewModel();
 		}
 	}
 }

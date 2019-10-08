@@ -1,4 +1,4 @@
-﻿using ARSphere.Entities;
+﻿using ARSphere.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,6 @@ namespace ARSphere.DAL
 {
 	public interface IUserService
 	{
-		public User FindById(int id);
+		public UserViewModel FindById(int id);
 	}
 }
