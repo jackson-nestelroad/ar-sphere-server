@@ -77,6 +77,7 @@ namespace ARSphere
 
 			services.AddDbContext();
 			services.AddTransientServices();
+			services.DisableModelStateValidation();
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
