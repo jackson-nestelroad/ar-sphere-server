@@ -1,6 +1,7 @@
 ﻿using ARSphere.Context;
 using ARSphere.DTO;
 using ARSphere.DTO.Helpers;
+using ARSphere.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +9,20 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DAL
 {
-	public class UserService : IUserService
+	/// <summary>
+	/// <para>API service to work with the Users table.</para>
+	/// </summary>
+	public class UserService : BaseService<User, UserViewModel>, IUserService
 	{
-		private readonly DatabaseContext _context;
-
-		public UserService(DatabaseContext context)
-		{
-			_context = context;
-		}
+		public UserService(DatabaseContext _context) : base(_context) { }
 
 		public UserViewModel FindById(int id)
 		{
 			var selection = from user in _context.Users
 							where user.Id == id
 							select user;
-			if(!selection.Any())
-			{
-				return null;
-			}
 
-			return selection.First().ToViewModel();
+			return selection.Any() ? selection.First().ToViewModel() : null;
 		}
 	}
 }
