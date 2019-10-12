@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Configuration
 {
+	/// <summary>
+	/// <para>Static class to provide access to the app's configuration file.</para>
+	/// </summary>
 	public abstract class ConfigurationBase
 	{
 		protected IConfigurationRoot GetConfiguration()

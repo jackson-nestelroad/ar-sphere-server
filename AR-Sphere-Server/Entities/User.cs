@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Entities
 {
+	/// <summary>
+	/// <para>Represents one row in the Users table in the database.</para>
+	/// </summary>
 	public class User
 	{	
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public long Id { get; set; }
+		public int Id { get; set; }
 
 		public string Username { get; set; }
 
@@ -23,5 +26,11 @@ namespace ARSphere.Entities
 
 		[DataType(DataType.Date)]
 		public DateTime RegisteredAt { get; set; }
+
+		public string ProfileImageUrl { get; set; }
+
+		public int Currency { get; set; }
+
+		public int Level { get; set; }
 	}
 }

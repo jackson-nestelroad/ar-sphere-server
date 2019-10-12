@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Configuration
 {
+	/// <summary>
+	/// <para>Class to access configuration settings for the database connection.</para>
+	/// </summary>
 	public class DatabaseConfiguration : ConfigurationBase
 	{
 		private string connectionStringKey = "DatabaseContext";

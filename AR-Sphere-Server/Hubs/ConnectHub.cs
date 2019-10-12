@@ -9,8 +9,7 @@ namespace ARSphere.Hubs
 {
 	public class ConnectHub : Hub
 	{
-		[Authorize]
-		public async Task SendMessage(string user, string message)
+		public async Task EchoMessage(string user, string message)
 		{
 			await Clients.All.SendAsync("ReceiveMessage", user, message);
 		}

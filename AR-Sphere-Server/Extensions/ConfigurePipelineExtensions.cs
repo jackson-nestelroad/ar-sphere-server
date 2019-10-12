@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Extensions
 {
+	/// <summary>
+	/// <para>Gives several configuration methods to further configure the HTTP pipeline.</para>
+	/// </summary>
 	public static class ConfigurePipelineExtensions
 	{
+		/// <summary>
+		/// <para>Creates a custom routing scheme for the API.</para>
+		/// </summary>
+		/// <param name="app"></param>
 		public static void UseCustomRouting(this IApplicationBuilder app)
 		{
 			app.UseRouting();
@@ -21,6 +28,14 @@ namespace ARSphere.Extensions
 			});
 		}
 
+		/// <summary>
+		/// <para>Ensures the database seeded by seeding the DatabaseContext service.</para>
+		/// <para>The DatabaseContext service is created exclusively for this method, assuring the work is finished
+		/// before turning back to the Startup.Configure method.</para>
+		/// </summary>
+		/// <param name="app"></param>
+		/// <param name="autoMigrateDatabase"></param>
+		/// <returns>Dummy integer to assure data finishes seeding synchronously.</returns>
 		public static int EnsureDatabaseIsSeeded(this IApplicationBuilder app, bool autoMigrateDatabase)
 		{
 			using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

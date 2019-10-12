@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Context.Helpers
 {
+	/// <summary>
+	/// <para>Provides methods to seed the database with JSON data in the <c>./SeedData</c> folder.</para>
+	/// </summary>
 	public class DatabaseSeeder
 	{
 		private readonly DatabaseContext _context;

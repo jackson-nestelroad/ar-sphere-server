@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Context
 {
+	/// <summary>
+	/// <para>Static class to provide extra functionality to our DatabaseContext.</para>
+	/// </summary>
 	public static class DatabaseContextExtensions
 	{
+		/// <summary>
+		/// <para>Seeds the database with data if the tables are empty.</para>
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public static int EnsureSeedData(this DatabaseContext context)
 		{
 			int sum = 0;
