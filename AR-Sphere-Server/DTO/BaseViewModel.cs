@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DTO
 {
-	public class BaseViewModel
+	/// <summary>
+	/// <para>Common interface to connect all other View Models.</para>
+	/// </summary>
+	public interface BaseViewModel
 	{
-		public string Message { get; set; }
+
 	}
 }
