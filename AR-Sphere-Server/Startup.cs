@@ -30,7 +30,10 @@ namespace ARSphere
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+		/// <summary>
+		/// <para>This method is called at runtime. Use this method to add services to the container.</para>
+		/// </summary>
+		/// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
 			//services.AddAuthentication()
@@ -72,16 +75,24 @@ namespace ARSphere
 			//	};
 			//});
 
+			// Add MVC for REST API
 			services.AddMvc();
+
+			// Add SignalR for streaming data
 			services.AddSignalR();
 
+			// Call container configuration extensions
 			services.AddDbContext();
 			services.AddTransientServices();
 			services.DisableModelStateValidation();
 		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		/// <summary>
+		/// <para>This method is called at runtime. Use this method to configure the HTTP request pipeline.</para>
+		/// </summary>
+		/// <param name="app"></param>
+		/// <param name="env"></param>
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 			if (env.IsDevelopment())
 			{
