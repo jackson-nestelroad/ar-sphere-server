@@ -1,7 +1,6 @@
 ﻿using ARSphere.Context;
 using ARSphere.DAL;
 using ARSphere.DTO;
-using ARSphere.DTO.Helpers;
 using ARSphere.Entities;
 using ARSphere.Middleware.Validation;
 using ARSphere.Models;
@@ -14,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Controllers
 {
+	/// <summary>
+	/// <para>API controller for interacting with User data.</para>
+	/// </summary>
 	[ApiController]
 	[Route("[controller]")]
 	[Produces("application/json")]
@@ -41,7 +43,7 @@ namespace ARSphere.Controllers
 
 		[HttpPost]
 		[ValidateModel]
-		public ResultViewModel Test([FromForm] UserModel user)
+		public ResultViewModel Test([FromBody] UserModel user)
 		{
 			return Result(user.ToEntity());
 		}
