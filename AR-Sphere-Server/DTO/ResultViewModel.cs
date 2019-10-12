@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DTO
 {
+	/// <summary>
+	/// <para>Public data format for all REST API responses.</para>
+	/// <code>
+	/// {
+	///		Success: boolean,
+	///		<br></br>
+	///		Result: object
+	/// }
+	/// </code>
+	/// </summary>
 	public class ResultViewModel
 	{
 		public bool Success { get; set; }
