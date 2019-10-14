@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.SignalR;
 using System.Text;
-using ARSphere.Context;
 using Microsoft.EntityFrameworkCore;
 using ARSphere.Extensions;
+using ARSphere.DAL;
 
 namespace ARSphere
 {
@@ -83,7 +83,7 @@ namespace ARSphere
 
 			// Call container configuration extensions
 			services.AddDbContext();
-			services.AddTransientServices();
+			services.AddServiceOfBaseClass<BaseService>(new[] { typeof(Startup).Assembly });
 			services.DisableModelStateValidation();
 		}
 

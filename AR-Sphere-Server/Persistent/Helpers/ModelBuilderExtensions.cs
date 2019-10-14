@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ARSphere.Context.Helpers
+namespace ARSphere.Persistent.Helpers
 {
 	/// <summary>
 	/// <para>Static class to provide extensions to the ModelBuilder class.</para>

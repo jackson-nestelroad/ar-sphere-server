@@ -1,7 +1,10 @@
-﻿using ARSphere.Context;
-using ARSphere.DTO;
+﻿using ARSphere.DTO;
 using ARSphere.DTO.Helpers;
 using ARSphere.Entities;
+using ARSphere.Middleware.Validation;
+using ARSphere.Models;
+using ARSphere.Models.Helpers;
+using ARSphere.Persistent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,7 @@ namespace ARSphere.DAL
 	/// <summary>
 	/// <para>API service to work with the Anchors table.</para>
 	/// </summary>
-	public class AnchorService : BaseService<Anchor, AnchorViewModel>, IAnchorService
+	public class AnchorService : BaseService, IAnchorService
 	{
 		public AnchorService(DatabaseContext _context) : base(_context) { }
 
@@ -27,6 +30,12 @@ namespace ARSphere.DAL
 							select anchor.ToViewModel(user, model, promotion, sponsor);
 
 			return selection.Any() ? selection.First() : null;
+		}
+
+		public async Task CreateAnchor(NewAnchorModel model)
+		{
+			_context.Anchors.Add(model.ToEntity());
+			await _context.SaveChangesAsync();
 		}
 	}
 }

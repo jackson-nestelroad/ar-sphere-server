@@ -1,5 +1,5 @@
-﻿using ARSphere.Context.Helpers;
-using ARSphere.Entities;
+﻿using ARSphere.Entities;
+using ARSphere.Persistent.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ARSphere.Context
+namespace ARSphere.Persistent
 {
 	/// <summary>
 	/// <para>Context which interacts directly with the MSSQL database.</para>

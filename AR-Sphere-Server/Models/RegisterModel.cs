@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Models
 {
-	public class UserModel
+	public class RegisterModel
 	{
 		[Required(ErrorMessage = "Username required.")]
 		[StringLength(30, MinimumLength = 6, ErrorMessage = "Username must be at least 6 characters.")]
 		public string Username { get; set; }
 
 		[Required(ErrorMessage = "Email address required.")]
-		[RegularExpression("[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*",
-			ErrorMessage = "Invalid Email Address")]
+		[EmailAddress]
 		public string Email { get; set; }
 
 		[Required(ErrorMessage = "Password required.")]

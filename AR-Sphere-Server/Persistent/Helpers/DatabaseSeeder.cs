@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ARSphere.Context.Helpers
+namespace ARSphere.Persistent.Helpers
 {
 	/// <summary>
 	/// <para>Provides methods to seed the database with JSON data in the <c>./SeedData</c> folder.</para>
