@@ -1,5 +1,5 @@
-﻿using ARSphere.Context;
-using ARSphere.DTO;
+﻿using ARSphere.DTO;
+using ARSphere.Persistent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,7 @@ namespace ARSphere.DAL
 	/// <summary>
 	/// <para>Minimal implementation of an API service to be used by API controllers and hubs.</para>
 	/// </summary>
-	/// <typeparam name="Entity">Database Entity (from DatabaseContext) this service works with.</typeparam>
-	/// <typeparam name="ViewModel">ViewModel equivalent to Entity</typeparam>
-	public abstract class BaseService<Entity, ViewModel> where ViewModel : BaseViewModel
+	public abstract class BaseService
 	{
 		protected readonly DatabaseContext _context;
 
