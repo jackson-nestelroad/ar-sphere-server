@@ -1,10 +1,10 @@
-﻿using ARSphere.Context;
-using ARSphere.DAL;
+﻿using ARSphere.DAL;
 using ARSphere.DTO;
 using ARSphere.Entities;
 using ARSphere.Middleware.Validation;
 using ARSphere.Models;
 using ARSphere.Models.Helpers;
+using ARSphere.Persistent;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace ARSphere.Controllers
 		[HttpGet("{id}")]
 		public ResultViewModel GetById(int id)
 		{
-			var entity = _service.FindById(id);
+			var entity = _service.GetById(id);
 
 			if(entity == null)
 			{
@@ -43,7 +43,7 @@ namespace ARSphere.Controllers
 
 		[HttpPost]
 		[ValidateModel]
-		public ResultViewModel Test([FromBody] UserModel user)
+		public ResultViewModel Test([FromBody] RegisterModel user)
 		{
 			return Result(user.ToEntity());
 		}
