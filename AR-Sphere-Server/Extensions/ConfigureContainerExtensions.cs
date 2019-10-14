@@ -1,12 +1,13 @@
 ﻿using ARSphere.Configuration;
-using ARSphere.Context;
 using ARSphere.DAL;
+using ARSphere.Persistent;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ARSphere.Extensions
@@ -32,12 +33,20 @@ namespace ARSphere.Extensions
 		}
 
 		/// <summary>
-		/// <para>Adds all transient services to be used by the controllers and hubs.</para>
+		/// <para>Adds all services to the container that derives a given base class.</para>
 		/// </summary>
 		/// <param name="services"></param>
-		public static void AddTransientServices(this IServiceCollection services)
+		public static void AddServiceOfBaseClass<T>(
+			this IServiceCollection services, 
+			Assembly[] assemblies, 
+			ServiceLifetime lifetime = ServiceLifetime.Transient)
 		{
-			services.AddTransient<IUserService, UserService>();
+			var typesFromAssemblies = assemblies.SelectMany(a => a.DefinedTypes.Where(x => x.BaseType == typeof(T)));
+			foreach(var type in typesFromAssemblies)
+			{
+				var interfaceType = type.GetInterfaces().Where(i => i.Name == "I" + type.Name);
+				services.Add(new ServiceDescriptor(interfaceType.Any() ? interfaceType.First() : type, type, lifetime));
+			}
 		}
 
 		/// <summary>
