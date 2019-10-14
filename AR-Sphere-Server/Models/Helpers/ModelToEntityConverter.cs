@@ -1,4 +1,5 @@
 ﻿using ARSphere.Entities;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace ARSphere.Models.Helpers
 		/// </summary>
 		/// <param name="userModel"></param>
 		/// <returns></returns>
-		public static User ToEntity(this UserModel userModel)
+		public static User ToEntity(this RegisterModel userModel)
 		{
 			return new User
 			{
@@ -24,6 +25,19 @@ namespace ARSphere.Models.Helpers
 				Email = userModel.Password,
 				Password = "HASHED",
 				RegisteredAt = DateTime.UtcNow
+			};
+		}
+
+		public static Anchor ToEntity(this NewAnchorModel anchorModel)
+		{
+			return new Anchor
+			{
+				Id = anchorModel.Id,
+				Model = anchorModel.Model,
+				Location = new Point(anchorModel.X, anchorModel.Y),
+				CreatedBy = anchorModel.Creator,
+				CreatedAt = DateTime.UtcNow,
+				LikedBy = null
 			};
 		}
 	}
