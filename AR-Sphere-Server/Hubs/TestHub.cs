@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ARSphere.Hubs
 {
-	public class ConnectHub : Hub
+	public partial class MasterHub : Hub<IClient>
 	{
-		public async Task EchoMessage(string user, string message)
+		public async Task Ping(string message)
 		{
-			await Clients.All.SendAsync("ReceiveMessage", user, message);
+			await Clients.Caller.Pong(message);
 		}
 	}
 }
