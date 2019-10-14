@@ -1,10 +1,10 @@
-﻿using ARSphere.Context.Helpers;
+﻿using ARSphere.Persistent.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ARSphere.Context
+namespace ARSphere.Persistent
 {
 	/// <summary>
 	/// <para>Static class to provide extra functionality to our DatabaseContext.</para>
