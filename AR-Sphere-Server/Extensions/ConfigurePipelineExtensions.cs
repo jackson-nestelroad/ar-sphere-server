@@ -1,4 +1,5 @@
-﻿using ARSphere.Context;
+﻿using ARSphere.Hubs;
+using ARSphere.Persistent;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,7 @@ namespace ARSphere.Extensions
 			app.UseRouting();
 			app.UseEndpoints(endpoints =>
 			{
-				// endpoints.MapHub<ConnectHub>("/connect");
+				endpoints.MapHub<MasterHub>("/connect");
 				endpoints.MapControllers();
 			});
 		}
