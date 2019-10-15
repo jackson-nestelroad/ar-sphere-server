@@ -82,7 +82,7 @@ namespace ARSphere
 			services.AddSignalR();
 
 			// Call container configuration extensions
-			services.AddDbContext();
+			services.AddDbContext(Configuration);
 			services.AddServiceOfBaseClass<BaseService>(new[] { typeof(Startup).Assembly });
 			services.DisableModelStateValidation();
 		}

@@ -1,8 +1,8 @@
-﻿using ARSphere.Configuration;
-using ARSphere.DAL;
+﻿using ARSphere.DAL;
 using ARSphere.Persistent;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,17 +16,15 @@ namespace ARSphere.Extensions
 	/// <para>Gives several configuration methods to further configure the services container</para>
 	/// </summary>
 	public static class ConfigureContainerExtensions
-	{
-		private static string ConnectionString => new DatabaseConfiguration().GetDatabaseConnectionString();
-		
+	{		
 		/// <summary>
 		/// <para>Creates and injects the DatabaseContext service with its required options.</para>
 		/// </summary>
 		/// <param name="services"></param>
-		public static void AddDbContext(this IServiceCollection services)
+		public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<DatabaseContext>(
-				options => options.UseSqlServer(ConnectionString, 
+				options => options.UseSqlServer(configuration.GetConnectionString("DatabaseContext"),
 					x => x.UseNetTopologySuite()
 				)
 			);
