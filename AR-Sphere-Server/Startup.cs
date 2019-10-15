@@ -79,7 +79,10 @@ namespace ARSphere
 			services.AddMvc();
 
 			// Add SignalR for streaming data
-			services.AddSignalR();
+			services.AddSignalR(options =>
+			{
+				options.EnableDetailedErrors = true;
+			});
 
 			// Call container configuration extensions
 			services.AddDbContext(Configuration);
@@ -94,6 +97,8 @@ namespace ARSphere
 		/// <param name="env"></param>
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+			app.MigrateDatabase();
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

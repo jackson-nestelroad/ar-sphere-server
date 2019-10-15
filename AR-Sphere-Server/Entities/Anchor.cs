@@ -16,7 +16,7 @@ namespace ARSphere.Entities
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[ForeignKey("ARModel")]
 		public int Model { get; set; }
@@ -35,14 +35,19 @@ namespace ARSphere.Entities
 
 		[ForeignKey("User")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public string Likes { get; private set; }
+		public string Likes { get; private set; } = "";
 
 		[NotMapped]
 		public List<int> LikedBy
 		{
 			get
 			{
-				return Likes.Split(',').Select(int.Parse).ToList();
+				return Likes.Split(',').Select(str => 
+				{
+					int value;
+					bool success = int.TryParse(str, out value);
+					return new { success, value };
+				}).Where(pair => pair.success).Select(pair => pair.value).ToList();
 			}
 			set
 			{

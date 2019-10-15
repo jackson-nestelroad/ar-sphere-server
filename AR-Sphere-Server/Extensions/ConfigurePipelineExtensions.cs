@@ -42,12 +42,31 @@ namespace ARSphere.Extensions
 			using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
 			{
 				var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
-				if(autoMigrateDatabase)
+				if (autoMigrateDatabase)
 				{
 					context.Database.Migrate();
 				}
 				return context.EnsureSeedData();
 			}
 		}
+
+		/// <summary>
+		/// <para>Migrates the database on startup.</para>
+		/// </summary>
+		/// <param name="app"></param>
+		/// <returns>Dummy integer to assure data finishes migrating synchronously.</returns>
+		public static int MigrateDatabase(this IApplicationBuilder app)
+		{
+			using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+			{
+				var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
+				bool migrationNeeded = Task.Run(() => context.Database.GetPendingMigrationsAsync()).Result.Any();
+				if (migrationNeeded)
+				{
+					context.Database.Migrate();
+				}
+				return 0;
+			}
+		}
 	}
-}
+}	

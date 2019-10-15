@@ -9,7 +9,7 @@ namespace ARSphere.DAL
 {
 	public interface IAnchorService
 	{
-		public AnchorViewModel GetById(int id);
+		public AnchorViewModel GetById(string id);
 		public Task CreateAnchor(NewAnchorModel model);
 	}
 }

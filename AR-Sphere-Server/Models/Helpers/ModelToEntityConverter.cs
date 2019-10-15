@@ -34,7 +34,10 @@ namespace ARSphere.Models.Helpers
 			{
 				Id = anchorModel.Id,
 				Model = anchorModel.Model,
-				Location = new Point(anchorModel.X, anchorModel.Y),
+				Location = new Point(anchorModel.X, anchorModel.Y)
+				{
+					SRID = 4326
+				},
 				CreatedBy = anchorModel.Creator,
 				CreatedAt = DateTime.UtcNow,
 				LikedBy = null
