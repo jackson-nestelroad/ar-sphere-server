@@ -8,7 +8,6 @@ namespace ARSphere.Hubs
 {
 	public interface IClient
 	{
-		Task Pong(string message);
-		Task AnchorData(IEnumerable<AnchorViewModel> anchors);
+
 	}
 }

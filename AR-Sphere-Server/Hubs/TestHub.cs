@@ -9,9 +9,9 @@ namespace ARSphere.Hubs
 {
 	public partial class MasterHub : Hub<IClient>
 	{
-		public async Task Ping(string message)
+		public string Ping(string message)
 		{
-			await Clients.Caller.Pong(message);
+			return message;
 		}
 	}
 }
