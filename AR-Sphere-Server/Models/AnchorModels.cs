@@ -9,13 +9,13 @@ namespace ARSphere.Models
 	public class NewAnchorModel
 	{
 		[Required(ErrorMessage = "Cloud Anchor ID required.")]
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[Required(ErrorMessage = "X-coordinate required.")]
-		public int X { get; set; }
+		public float X { get; set; }
 
 		[Required(ErrorMessage = "Y-coordinate required.")]
-		public int Y { get; set; }
+		public float Y { get; set; }
 
 		[Required(ErrorMessage = "AR Model ID required.")]
 		public int Model { get; set; }

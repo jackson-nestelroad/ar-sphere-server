@@ -17,14 +17,14 @@ namespace ARSphere.Hubs
 			return _anchorService.CreateAnchor(model);
 		}
 
-		public Task GetAnchor(int id)
+		public AnchorViewModel GetAnchor(string id)
 		{
 			var anchor = _anchorService.GetById(id);
 			if(anchor == null)
 			{
 				throw new HubException($"Could not locate anchor id = {id}.");
 			}
-			return Clients.Caller.AnchorData(new[] { anchor });
+			return anchor;
 		}
 	}
 }

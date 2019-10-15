@@ -5,6 +5,7 @@ using ARSphere.Middleware.Validation;
 using ARSphere.Models;
 using ARSphere.Models.Helpers;
 using ARSphere.Persistent;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,22 @@ namespace ARSphere.DAL
 	{
 		public AnchorService(DatabaseContext _context) : base(_context) { }
 
-		public AnchorViewModel GetById(int id)
+		public AnchorViewModel GetById(string id)
 		{
 			var selection = from anchor in _context.Anchors
-							where anchor.Id == id
-							join user in _context.Users on anchor.CreatedBy equals user.Id
-							join model in _context.ARModels on anchor.Model equals model.Id
-							join promotion in _context.Promotions on model.Promotion equals promotion.Id
-							join sponsor in _context.Sponsors on promotion.Sponsor equals sponsor.Id
+								.Where(a => a.Id == id)
+							from user in _context.Users
+								.Where(u => u.Id == anchor.CreatedBy)
+								.DefaultIfEmpty()
+							from model in _context.ARModels
+								.Where(m => m.Id == anchor.Model)
+								.DefaultIfEmpty()
+							from promotion in _context.Promotions
+								.Where(p => p.Id == model.Promotion)
+								.DefaultIfEmpty()
+							from sponsor in _context.Sponsors
+								.Where(s => s.Id == promotion.Sponsor)
+								.DefaultIfEmpty()
 							select anchor.ToViewModel(user, model, promotion, sponsor);
 
 			return selection.Any() ? selection.First() : null;
@@ -35,7 +44,14 @@ namespace ARSphere.DAL
 		public async Task CreateAnchor(NewAnchorModel model)
 		{
 			_context.Anchors.Add(model.ToEntity());
-			await _context.SaveChangesAsync();
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch(DbUpdateException ex)
+			{
+				Console.WriteLine(ex.InnerException.InnerException.Message);
+			}
 		}
 	}
 }

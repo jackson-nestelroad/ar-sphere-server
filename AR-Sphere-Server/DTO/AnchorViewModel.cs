@@ -10,7 +10,7 @@ namespace ARSphere.DTO
 	/// </summary>
 	public class AnchorViewModel : BaseViewModel
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 		public ARModelViewModel Model { get; set; }
 		public UserViewModel CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }
