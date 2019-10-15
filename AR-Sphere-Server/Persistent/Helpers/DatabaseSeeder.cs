@@ -22,7 +22,7 @@ namespace ARSphere.Persistent.Helpers
 
 		public async Task<int> SeedUserEntitiesFromJson()
 		{
-			var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Context", "Helpers", "SeedData", "UserSeedData.json");
+			var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Persistent", "Helpers", "SeedData", "UserSeedData.json");
 			if(!File.Exists(filePath))
 			{
 				throw new FileNotFoundException($"The file {filePath} does not exist.");
