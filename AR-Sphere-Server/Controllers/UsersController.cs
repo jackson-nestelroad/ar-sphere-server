@@ -1,6 +1,7 @@
 ﻿using ARSphere.DAL;
 using ARSphere.DTO;
 using ARSphere.Entities;
+using ARSphere.Middleware.ExceptionHandling;
 using ARSphere.Middleware.Validation;
 using ARSphere.Models;
 using ARSphere.Models.Helpers;
@@ -19,7 +20,7 @@ namespace ARSphere.Controllers
 	[ApiController]
 	[Route("[controller]")]
 	[Produces("application/json")]
-	public class UsersController : BaseController
+	public class UsersController
 	{
 		private readonly IUserService _service;
 
@@ -29,23 +30,23 @@ namespace ARSphere.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public ResultViewModel GetById(int id)
+		public UserViewModel GetById(int id)
 		{
 			var entity = _service.GetById(id);
 
 			if(entity == null)
 			{
-				return ErrorResult($"User id = {id} does not exist.");
+				throw new HttpStatusCodeException(404, $"User id = {id} does not exist.");
 			}
 
-			return SingleResult(entity);
+			return entity;
 		}
 
 		[HttpPost]
-		[ValidateModel]
-		public ResultViewModel Test([FromBody] RegisterModel user)
+		// [ValidateModel]
+		public User Test([FromBody] RegisterModel user)
 		{
-			return Result(user.ToEntity());
+			return _service.RegisterUser(user);
 		}
 	}
 }
