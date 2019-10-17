@@ -1,4 +1,5 @@
 ﻿using ARSphere.DTO;
+using ARSphere.Middleware.Validation;
 using ARSphere.Persistent;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace ARSphere.DAL
 	public abstract class BaseService
 	{
 		protected readonly DatabaseContext _context;
+		protected readonly IValidationService _validation;
 
-		public BaseService(DatabaseContext context)
+		public BaseService(DatabaseContext context, IValidationService validation)
 		{
 			_context = context;
+			_validation = validation;
 		}
 	}
 }
