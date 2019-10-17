@@ -2,10 +2,7 @@
 using ARSphere.DTO;
 using ARSphere.Entities;
 using ARSphere.Middleware.ExceptionHandling;
-using ARSphere.Middleware.Validation;
 using ARSphere.Models;
-using ARSphere.Models.Helpers;
-using ARSphere.Persistent;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -43,7 +40,6 @@ namespace ARSphere.Controllers
 		}
 
 		[HttpPost]
-		// [ValidateModel]
 		public User Test([FromBody] RegisterModel user)
 		{
 			return _service.RegisterUser(user);
