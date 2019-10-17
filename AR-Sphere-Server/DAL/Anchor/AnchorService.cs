@@ -18,7 +18,7 @@ namespace ARSphere.DAL
 	/// </summary>
 	public class AnchorService : BaseService, IAnchorService
 	{
-		public AnchorService(DatabaseContext _context) : base(_context) { }
+		public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
 		public AnchorViewModel GetById(string id)
 		{
