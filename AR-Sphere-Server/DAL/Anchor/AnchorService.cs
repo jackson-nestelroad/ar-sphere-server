@@ -50,7 +50,7 @@ namespace ARSphere.DAL
             }
             catch (DbUpdateException ex)
             {
-                Console.WriteLine(ex.InnerException.InnerException.Message);
+				throw new Exception(ex.InnerException.Message);
             }
         }
 
