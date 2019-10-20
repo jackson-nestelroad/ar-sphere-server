@@ -11,5 +11,6 @@ namespace ARSphere.DAL
 	{
 		public AnchorViewModel GetById(string id);
 		public Task CreateAnchor(NewAnchorModel model);
+        public AnchorViewModel GetLast();
 	}
 }
