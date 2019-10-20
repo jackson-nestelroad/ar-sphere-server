@@ -26,5 +26,17 @@ namespace ARSphere.Hubs
 			}
 			return anchor;
 		}
+
+        public AnchorViewModel GetLastAnchor() 
+        {
+            var anchor =_anchorService.GetLast();
+            if (anchor == null)
+            {
+                throw new HubException($"No last anchor exists.");
+            }
+
+            return anchor;
+        }
+
 	}
 }
