@@ -6,6 +6,7 @@ using ARSphere.Models;
 using ARSphere.Models.Helpers;
 using ARSphere.Persistent;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,30 @@ namespace ARSphere.DAL
                 return null;
             }
 
+        }
+
+        /*
+         * Returns list of AnchorViewModels near a radius. 
+         * Should theoretically work.
+         */
+        public List<AnchorViewModel> GetAnchorsNear(Location loc, double rad)
+        {
+            List<AnchorViewModel> near = new List<AnchorViewModel>();
+
+            if (_context.Anchors.Any())
+            {
+                _context.Anchors.ToList().ForEach(anchor =>
+                {
+                    if (anchor.Location.IsWithinDistance(anchor.Location, rad))
+                    {
+                        near.Add(GetById(anchor.Id));
+                    }
+                });
+
+                return near;
+            }
+            else return null;
+            
         }
     }
 }

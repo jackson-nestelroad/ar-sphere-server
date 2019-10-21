@@ -3,6 +3,7 @@ using ARSphere.DTO;
 using ARSphere.Middleware.Validation;
 using ARSphere.Models;
 using Microsoft.AspNetCore.SignalR;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,5 +39,14 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
-	}
+        public List<AnchorViewModel> GetAnchorsNear(Location loc, double rad)
+        {
+            var res = _anchorService.GetAnchorsNear(loc, rad);
+            if (res != null) 
+                return res;
+            else 
+                throw new HubException("No anchors near this location.");
+        }
+
+    }
 }
