@@ -13,6 +13,6 @@ namespace ARSphere.DAL
 		public AnchorViewModel GetById(string id);
 		public Task CreateAnchor(NewAnchorModel model);
         public AnchorViewModel GetLast();
-        public List<AnchorViewModel> GetAnchorsNear(Location loc, double rad);
+        public List<AnchorViewModel> GetAnchorsNear(Coordinate loc, double rad);
 	}
 }

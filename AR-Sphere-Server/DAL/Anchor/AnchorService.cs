@@ -74,7 +74,7 @@ namespace ARSphere.DAL
          * Returns list of AnchorViewModels near a radius. 
          * Should theoretically work.
          */
-        public List<AnchorViewModel> GetAnchorsNear(Location loc, double rad)
+        public List<AnchorViewModel> GetAnchorsNear(Coordinate loc, double rad)
         {
             List<AnchorViewModel> near = new List<AnchorViewModel>();
 

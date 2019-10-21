@@ -39,7 +39,7 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
-        public List<AnchorViewModel> GetAnchorsNear(Location loc, double rad)
+        public List<AnchorViewModel> GetAnchorsNear(Coordinate loc, double rad)
         {
             var res = _anchorService.GetAnchorsNear(loc, rad);
             if (res != null) 
