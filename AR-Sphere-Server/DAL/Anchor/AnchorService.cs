@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DAL
 {
-	/// <summary>
-	/// <para>API service to work with the Anchors table.</para>
-	/// </summary>
-	public class AnchorService : BaseService, IAnchorService
-	{
-		public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
+    /// <summary>
+    /// <para>API service to work with the Anchors table.</para>
+    /// </summary>
+    public class AnchorService : BaseService, IAnchorService
+    {
+        public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
         public AnchorViewModel GetById(string id)
         {
@@ -50,22 +50,20 @@ namespace ARSphere.DAL
             }
             catch (DbUpdateException ex)
             {
-				throw new Exception(ex.InnerException.Message);
+                throw new Exception(ex.InnerException.Message);
             }
         }
 
         public AnchorViewModel GetLast()
         {
-            if (_context.Anchors.Any())
-            {
-                var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
-                var s = _context.Anchors.First(anchor => anchor.CreatedAt == max);
-                return GetById(s.Id);
-            }
-            else
+            if (!_context.Anchors.Any())
             {
                 return null;
             }
+
+            var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
+            var s = _context.Anchors.First(anchor => anchor.CreatedAt == max);
+            return GetById(s.Id);
 
         }
     }

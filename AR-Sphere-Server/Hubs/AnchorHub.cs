@@ -10,26 +10,26 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Hubs
 {
-	public partial class MasterHub : Hub<IClient>
-	{
-		public Task CreateAnchor(NewAnchorModel model)
-		{
-			return _anchorService.CreateAnchor(model);
-		}
-
-		public AnchorViewModel GetAnchor(string id)
-		{
-			var anchor = _anchorService.GetById(id);
-			if(anchor == null)
-			{
-				throw new HubException($"Could not locate anchor id = {id}.");
-			}
-			return anchor;
-		}
-
-        public AnchorViewModel GetLastAnchor() 
+    public partial class MasterHub : Hub<IClient>
+    {
+        public Task CreateAnchor(NewAnchorModel model)
         {
-            var anchor =_anchorService.GetLast();
+            return _anchorService.CreateAnchor(model);
+        }
+
+        public AnchorViewModel GetAnchor(string id)
+        {
+            var anchor = _anchorService.GetById(id);
+            if (anchor == null)
+            {
+                throw new HubException($"Could not locate anchor id = {id}.");
+            }
+            return anchor;
+        }
+
+        public AnchorViewModel GetLastAnchor()
+        {
+            var anchor = _anchorService.GetLast();
             if (anchor == null)
             {
                 throw new HubException($"No last anchor exists.");
@@ -38,5 +38,5 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
-	}
+    }
 }

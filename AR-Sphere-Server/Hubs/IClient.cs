@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Hubs
 {
-	public interface IClient
-	{
+    public interface IClient
+    {
 
-	}
+    }
 }

@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ARSphere.Hubs
 {
-	public partial class MasterHub : Hub<IClient>
-	{
-		private IAnchorService _anchorService;
-		public MasterHub(
-			IAnchorService anchorService)
-		{
-			_anchorService = anchorService;
-		}
-	}
+    public partial class MasterHub : Hub<IClient>
+    {
+        private IAnchorService _anchorService;
+        public MasterHub(
+            IAnchorService anchorService)
+        {
+            _anchorService = anchorService;
+        }
+    }
 }

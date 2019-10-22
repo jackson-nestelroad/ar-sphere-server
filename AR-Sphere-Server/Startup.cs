@@ -30,85 +30,85 @@ namespace ARSphere
 
         public IConfiguration Configuration { get; }
 
-		/// <summary>
-		/// <para>This method is called at runtime. Use this method to add services to the container.</para>
-		/// </summary>
-		/// <param name="services"></param>
+        /// <summary>
+        /// <para>This method is called at runtime. Use this method to add services to the container.</para>
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-			//services.AddAuthentication()
-			//	.AddPolicyScheme
+            //services.AddAuthentication()
+            //	.AddPolicyScheme
 
 
-			//services.AddAuthentication(options =>
-			//{
-			//	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-			//	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //services.AddAuthentication(options =>
+            //{
+            //	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-			//}).AddJwtBearer(options =>
-			//{
-			//	options.TokenValidationParameters = new TokenValidationParameters
-			//	{
-			//		LifetimeValidator = (before, expires, token, param) =>
-			//		{
-			//			return expires > DateTime.UtcNow;
-			//		},
-			//		ValidateAudience = false,
-			//		ValidateIssuer = false,
-			//		ValidateActor = false,
-			//		ValidateLifetime = true
-			//	};
+            //}).AddJwtBearer(options =>
+            //{
+            //	options.TokenValidationParameters = new TokenValidationParameters
+            //	{
+            //		LifetimeValidator = (before, expires, token, param) =>
+            //		{
+            //			return expires > DateTime.UtcNow;
+            //		},
+            //		ValidateAudience = false,
+            //		ValidateIssuer = false,
+            //		ValidateActor = false,
+            //		ValidateLifetime = true
+            //	};
 
-			//	options.Events = new JwtBearerEvents
-			//	{
-			//		OnMessageReceived = context =>
-			//		{
-			//			var accessToken = context.Request.Query["access_token"];
+            //	options.Events = new JwtBearerEvents
+            //	{
+            //		OnMessageReceived = context =>
+            //		{
+            //			var accessToken = context.Request.Query["access_token"];
 
-			//			var path = context.HttpContext.Request.Path;
-			//			if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/connect"))
-			//			{
-			//				context.Token = accessToken;
-			//			}
-			//			return Task.CompletedTask;
-			//		}
-			//	};
-			//});
+            //			var path = context.HttpContext.Request.Path;
+            //			if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/connect"))
+            //			{
+            //				context.Token = accessToken;
+            //			}
+            //			return Task.CompletedTask;
+            //		}
+            //	};
+            //});
 
-			// Add MVC for REST API
-			services.AddMvc();
+            // Add MVC for REST API
+            services.AddMvc();
 
-			// Add SignalR for streaming data
-			services.AddSignalR(options =>
-			{
-				options.EnableDetailedErrors = true;
-			});
+            // Add SignalR for streaming data
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
 
-			// Call container configuration extensions
-			services.AddDbContext(Configuration);
-			services.AddServiceOfBaseClass<BaseService>(new[] { typeof(Startup).Assembly });
-			services.AddTransientServices();
-			services.DisableModelStateValidation();
-		}
+            // Call container configuration extensions
+            services.AddDbContext(Configuration);
+            services.AddServiceOfBaseClass<BaseService>(new[] { typeof(Startup).Assembly });
+            services.AddTransientServices();
+            services.DisableModelStateValidation();
+        }
 
-		/// <summary>
-		/// <para>This method is called at runtime. Use this method to configure the HTTP request pipeline.</para>
-		/// </summary>
-		/// <param name="app"></param>
-		/// <param name="env"></param>
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        /// <summary>
+        /// <para>This method is called at runtime. Use this method to configure the HTTP request pipeline.</para>
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-			app.MigrateDatabase();
+            app.MigrateDatabase();
 
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.EnsureDatabaseIsSeeded(false);
-			}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.EnsureDatabaseIsSeeded(false);
+            }
 
-			app.UseHttpStatusCodeExceptionHandler();
-			app.UseHttpsRedirection();
-			app.UseCustomRouting();
-		}
+            app.UseHttpStatusCodeExceptionHandler();
+            app.UseHttpsRedirection();
+            app.UseCustomRouting();
+        }
     }
 }

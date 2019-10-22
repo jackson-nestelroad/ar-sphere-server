@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Entities
 {
-	/// <summary>
-	/// <para>Represents one row in the Sponsors table in the database.</para>
-	/// </summary>
-	public class Sponsor
-	{
-		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int Id { get; set; }
+    /// <summary>
+    /// <para>Represents one row in the Sponsors table in the database.</para>
+    /// </summary>
+    public class Sponsor
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-		public string Name { get; set; }
-	}
+        public string Name { get; set; }
+    }
 }
