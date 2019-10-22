@@ -11,38 +11,38 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Controllers
 {
-	/// <summary>
-	/// <para>API controller for interacting with User data.</para>
-	/// </summary>
-	[ApiController]
-	[Route("[controller]")]
-	[Produces("application/json")]
-	public class UsersController
-	{
-		private readonly IUserService _service;
+    /// <summary>
+    /// <para>API controller for interacting with User data.</para>
+    /// </summary>
+    [ApiController]
+    [Route("[controller]")]
+    [Produces("application/json")]
+    public class UsersController
+    {
+        private readonly IUserService _service;
 
-		public UsersController(IUserService service)
-		{
-			_service = service;
-		}
+        public UsersController(IUserService service)
+        {
+            _service = service;
+        }
 
-		[HttpGet("{id}")]
-		public UserViewModel GetById(int id)
-		{
-			var entity = _service.GetById(id);
+        [HttpGet("{id}")]
+        public UserViewModel GetById(int id)
+        {
+            var entity = _service.GetById(id);
 
-			if(entity == null)
-			{
-				throw new HttpStatusCodeException(404, $"User id = {id} does not exist.");
-			}
+            if (entity == null)
+            {
+                throw new HttpStatusCodeException(404, $"User id = {id} does not exist.");
+            }
 
-			return entity;
-		}
+            return entity;
+        }
 
-		[HttpPost]
-		public User Test([FromBody] RegisterModel user)
-		{
-			return _service.RegisterUser(user);
-		}
-	}
+        [HttpPost]
+        public User Test([FromBody] RegisterModel user)
+        {
+            return _service.RegisterUser(user);
+        }
+    }
 }

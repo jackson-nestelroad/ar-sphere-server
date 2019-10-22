@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DAL
 {
-	/// <summary>
-	/// <para>Minimal implementation of an API service to be used by API controllers and hubs.</para>
-	/// </summary>
-	public abstract class BaseService
-	{
-		protected readonly DatabaseContext _context;
-		protected readonly IValidationService _validation;
+    /// <summary>
+    /// <para>Minimal implementation of an API service to be used by API controllers and hubs.</para>
+    /// </summary>
+    public abstract class BaseService
+    {
+        protected readonly DatabaseContext _context;
+        protected readonly IValidationService _validation;
 
-		public BaseService(DatabaseContext context, IValidationService validation)
-		{
-			_context = context;
-			_validation = validation;
-		}
-	}
+        public BaseService(DatabaseContext context, IValidationService validation)
+        {
+            _context = context;
+            _validation = validation;
+        }
+    }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DAL
 {
-	public interface IAnchorService
-	{
-		public AnchorViewModel GetById(string id);
-		public Task CreateAnchor(NewAnchorModel model);
+    public interface IAnchorService
+    {
+        public AnchorViewModel GetById(string id);
+        public Task CreateAnchor(NewAnchorModel model);
         public AnchorViewModel GetLast();
-	}
+    }
 }

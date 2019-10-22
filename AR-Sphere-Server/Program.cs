@@ -11,10 +11,10 @@ namespace ARSphere
 {
     public class Program
     {
-		/// <summary>
-		/// Program entrypoint. Starts up, builds, and runs the WebHost.
-		/// </summary>
-		/// <param name="args"></param>
+        /// <summary>
+        /// Program entrypoint. Starts up, builds, and runs the WebHost.
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

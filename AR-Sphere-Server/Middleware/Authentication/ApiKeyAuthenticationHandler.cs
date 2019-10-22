@@ -75,7 +75,7 @@
 
 //		private async bool IsValidRequest(HttpRequest request, string appId, string signatureHmac, string nonce, string timeStamp)
 //		{
-			
+
 //		}
 
 //		private bool IsReplayRequest(string nonce, string timeStamp)

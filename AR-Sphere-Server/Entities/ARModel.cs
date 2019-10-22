@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Entities
 {
-	/// <summary>
-	/// <para>Represents one row in the ARModels table in the database.</para>
-	/// </summary>
-	public class ARModel
-	{
-		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int Id { get; set; }
+    /// <summary>
+    /// <para>Represents one row in the ARModels table in the database.</para>
+    /// </summary>
+    public class ARModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-		public string Name { get; set; }
+        public string Name { get; set; }
 
-		public string Url { get; set; }
+        public string Url { get; set; }
 
-		[ForeignKey("Promotion")]
-		public int Promotion { get; set; }
-	}
+        [ForeignKey("Promotion")]
+        public int Promotion { get; set; }
+    }
 }

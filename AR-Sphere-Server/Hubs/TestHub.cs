@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ARSphere.Hubs
 {
-	public partial class MasterHub : Hub<IClient>
-	{
-		public string Ping(string message)
-		{
-			return message;
-		}
-	}
+    public partial class MasterHub : Hub<IClient>
+    {
+        public string Ping(string message)
+        {
+            return message;
+        }
+    }
 }
