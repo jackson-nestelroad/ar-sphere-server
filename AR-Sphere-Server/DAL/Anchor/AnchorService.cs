@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DAL
 {
-    /// <summary>
-    /// <para>API service to work with the Anchors table.</para>
-    /// </summary>
-    public class AnchorService : BaseService, IAnchorService
-    {
-        public AnchorService(DatabaseContext _context) : base(_context) { }
+	/// <summary>
+	/// <para>API service to work with the Anchors table.</para>
+	/// </summary>
+	public class AnchorService : BaseService, IAnchorService
+	{
+		public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
         public AnchorViewModel GetById(string id)
         {

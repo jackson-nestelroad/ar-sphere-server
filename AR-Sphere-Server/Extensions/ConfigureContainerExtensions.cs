@@ -1,4 +1,5 @@
 ﻿using ARSphere.DAL;
+using ARSphere.Middleware.Validation;
 using ARSphere.Persistent;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,15 @@ namespace ARSphere.Extensions
 				var interfaceType = type.GetInterfaces().Where(i => i.Name == "I" + type.Name);
 				services.Add(new ServiceDescriptor(interfaceType.Any() ? interfaceType.First() : type, type, lifetime));
 			}
+		}
+
+		/// <summary>
+		/// <para>Adds any other transient services to the container the application needs.</para>
+		/// </summary>
+		/// <param name="services"></param>
+		public static void AddTransientServices(this IServiceCollection services)
+		{
+			services.AddTransient<IValidationService, ValidationService>();
 		}
 
 		/// <summary>

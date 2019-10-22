@@ -1,4 +1,5 @@
 ﻿using ARSphere.Hubs;
+using ARSphere.Middleware.ExceptionHandling;
 using ARSphere.Persistent;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,11 @@ namespace ARSphere.Extensions
 				}
 				return 0;
 			}
+		}
+
+		public static void UseHttpStatusCodeExceptionHandler(this IApplicationBuilder app)
+		{
+			app.UseMiddleware<HttpStatusCodeExceptionHandler>();
 		}
 	}
 }	

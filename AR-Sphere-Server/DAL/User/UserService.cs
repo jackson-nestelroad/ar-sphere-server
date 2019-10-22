@@ -1,7 +1,9 @@
 ﻿using ARSphere.DTO;
 using ARSphere.DTO.Helpers;
 using ARSphere.Entities;
+using ARSphere.Middleware.Validation;
 using ARSphere.Models;
+using ARSphere.Models.Helpers;
 using ARSphere.Persistent;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace ARSphere.DAL
 	/// </summary>
 	public class UserService : BaseService, IUserService
 	{
-		public UserService(DatabaseContext _context) : base(_context) { }
+		public UserService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
 		public UserViewModel GetById(int id)
 		{
@@ -25,6 +27,12 @@ namespace ARSphere.DAL
 							select user;
 
 			return selection.Any() ? selection.First().ToViewModel() : null;
+		}
+
+		public User RegisterUser(RegisterModel model)
+		{
+			_validation.Validate(model);
+			return model.ToEntity();
 		}
 	}
 }

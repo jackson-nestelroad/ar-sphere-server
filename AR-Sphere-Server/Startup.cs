@@ -87,6 +87,7 @@ namespace ARSphere
 			// Call container configuration extensions
 			services.AddDbContext(Configuration);
 			services.AddServiceOfBaseClass<BaseService>(new[] { typeof(Startup).Assembly });
+			services.AddTransientServices();
 			services.DisableModelStateValidation();
 		}
 
@@ -105,6 +106,7 @@ namespace ARSphere
 				app.EnsureDatabaseIsSeeded(false);
 			}
 
+			app.UseHttpStatusCodeExceptionHandler();
 			app.UseHttpsRedirection();
 			app.UseCustomRouting();
 		}
