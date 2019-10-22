@@ -20,38 +20,53 @@ namespace ARSphere.DAL
 	{
 		public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
-		public AnchorViewModel GetById(string id)
-		{
-			var selection = from anchor in _context.Anchors
-								.Where(a => a.Id == id)
-							from user in _context.Users
-								.Where(u => u.Id == anchor.CreatedBy)
-								.DefaultIfEmpty()
-							from model in _context.ARModels
-								.Where(m => m.Id == anchor.Model)
-								.DefaultIfEmpty()
-							from promotion in _context.Promotions
-								.Where(p => p.Id == model.Promotion)
-								.DefaultIfEmpty()
-							from sponsor in _context.Sponsors
-								.Where(s => s.Id == promotion.Sponsor)
-								.DefaultIfEmpty()
-							select anchor.ToViewModel(user, model, promotion, sponsor);
+        public AnchorViewModel GetById(string id)
+        {
+            var selection = from anchor in _context.Anchors
+                                .Where(a => a.Id == id)
+                            from user in _context.Users
+                                .Where(u => u.Id == anchor.CreatedBy)
+                                .DefaultIfEmpty()
+                            from model in _context.ARModels
+                                .Where(m => m.Id == anchor.Model)
+                                .DefaultIfEmpty()
+                            from promotion in _context.Promotions
+                                .Where(p => p.Id == model.Promotion)
+                                .DefaultIfEmpty()
+                            from sponsor in _context.Sponsors
+                                .Where(s => s.Id == promotion.Sponsor)
+                                .DefaultIfEmpty()
+                            select anchor.ToViewModel(user, model, promotion, sponsor);
 
-			return selection.Any() ? selection.First() : null;
-		}
+            return selection.Any() ? selection.First() : null;
+        }
 
-		public async Task CreateAnchor(NewAnchorModel model)
-		{
-			_context.Anchors.Add(model.ToEntity());
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch(DbUpdateException ex)
-			{
-				Console.WriteLine(ex.InnerException.InnerException.Message);
-			}
-		}
-	}
+        public async Task CreateAnchor(NewAnchorModel model)
+        {
+            _context.Anchors.Add(model.ToEntity());
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+				throw new Exception(ex.InnerException.Message);
+            }
+        }
+
+        public AnchorViewModel GetLast()
+        {
+            if (_context.Anchors.Any())
+            {
+                var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
+                var s = _context.Anchors.First(anchor => anchor.CreatedAt == max);
+                return GetById(s.Id);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+    }
 }
