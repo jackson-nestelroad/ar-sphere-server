@@ -34,9 +34,7 @@ namespace ARSphere.Hubs
             {
                 throw new HubException($"No last anchor exists.");
             }
-
             return anchor;
         }
-
     }
 }
