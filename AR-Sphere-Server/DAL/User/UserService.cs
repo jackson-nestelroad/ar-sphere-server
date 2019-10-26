@@ -27,7 +27,7 @@ namespace ARSphere.DAL
                             select user;
             var selection = query.ToList();
 
-            return selection.Any() ? selection.First().ToViewModel() : null;
+            return selection.Any() ? selection.First().ToViewModelPublic() : null;
         }
 
         public User RegisterUser(RegisterModel model)
