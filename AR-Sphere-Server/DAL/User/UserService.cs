@@ -22,9 +22,10 @@ namespace ARSphere.DAL
 
         public UserViewModel GetById(int id)
         {
-            var selection = from user in _context.Users
+            var query = from user in _context.Users
                             where user.Id == id
                             select user;
+            var selection = query.ToList();
 
             return selection.Any() ? selection.First().ToViewModel() : null;
         }

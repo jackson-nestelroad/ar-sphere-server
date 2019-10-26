@@ -22,7 +22,7 @@ namespace ARSphere.DAL
 
         public AnchorViewModel GetById(string id)
         {
-            var selection = from anchor in _context.Anchors
+            var query = from anchor in _context.Anchors
                                 .Where(a => a.Id == id)
                             from user in _context.Users
                                 .Where(u => u.Id == anchor.CreatedBy)
@@ -37,6 +37,7 @@ namespace ARSphere.DAL
                                 .Where(s => s.Id == promotion.Sponsor)
                                 .DefaultIfEmpty()
                             select anchor.ToViewModel(user, model, promotion, sponsor);
+            var selection = query.ToList();
 
             return selection.Any() ? selection.First() : null;
         }
