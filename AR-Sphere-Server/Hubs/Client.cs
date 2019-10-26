@@ -21,5 +21,6 @@ namespace ARSphere.Hubs
     {
         public double X { get; set; }
         public double Y { get; set; }
+        public int UserId { get; set; }
     }
 }

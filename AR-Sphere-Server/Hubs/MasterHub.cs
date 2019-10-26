@@ -11,14 +11,17 @@ namespace ARSphere.Hubs
     public partial class MasterHub : Hub<IClient>
     {
         private IAnchorService _anchorService;
+        private IUserService _userService;
         private Dictionary<string, Client> ClientMap;
 
         private Client CurrentClient => ClientMap[Context.ConnectionId];
 
         public MasterHub(
-            IAnchorService anchorService)
+            IAnchorService anchorService,
+            IUserService userService)
         {
             _anchorService = anchorService;
+            _userService = userService;
             ClientMap = new Dictionary<string, Client>();
         }
 
