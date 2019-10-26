@@ -12,7 +12,7 @@ namespace ARSphere.DTO
     {
         public string Id { get; set; }
         public ARModelViewModel Model { get; set; }
-        public ProfileViewModel CreatedBy { get; set; }
+        public UserViewModelPublic CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<int> LikedBy { get; set; }
     }

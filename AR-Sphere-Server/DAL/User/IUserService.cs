@@ -11,7 +11,7 @@ namespace ARSphere.DAL
 {
     public interface IUserService
     {
-        public ProfileViewModel GetById(int id);
+        public UserViewModelPublic GetById(int id);
         public User RegisterUser(RegisterModel model);
     }
 }

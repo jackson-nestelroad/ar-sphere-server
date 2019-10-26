@@ -5,7 +5,19 @@ using System.Threading.Tasks;
 
 namespace ARSphere.DTO
 {
-    public class UserViewModel
+    /// <summary>
+    /// <para>Public data format for presenting a User entity's public data.</para>
+    /// </summary>
+    public class UserViewModelPublic : BaseViewModel
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public DateTime RegisteredAt { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public int Level { get; set; }
+    }
+
+    public class UserViewModelPrivate : BaseViewModel
     {
         public int Id { get; set; }
         public string Username { get; set; }

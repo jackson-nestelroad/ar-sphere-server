@@ -20,7 +20,7 @@ namespace ARSphere.DAL
     {
         public UserService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
-        public ProfileViewModel GetById(int id)
+        public UserViewModelPublic GetById(int id)
         {
             var query = from user in _context.Users
                             where user.Id == id

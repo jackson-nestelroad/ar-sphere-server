@@ -99,9 +99,9 @@ namespace ARSphere.DTO.Helpers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static ProfileViewModel ToViewModelPublic(this User user)
+        public static UserViewModelPublic ToViewModelPublic(this User user)
         {
-            return new ProfileViewModel
+            return new UserViewModelPublic
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -117,9 +117,9 @@ namespace ARSphere.DTO.Helpers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static UserViewModel ToViewModelPrivate (this User user)
+        public static UserViewModelPrivate ToViewModelPrivate (this User user)
         {
-            return new UserViewModel
+            return new UserViewModelPrivate
             {
                 Id = user.Id,
                 Username = user.Username,
