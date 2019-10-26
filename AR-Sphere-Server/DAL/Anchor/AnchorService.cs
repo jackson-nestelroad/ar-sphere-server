@@ -62,9 +62,8 @@ namespace ARSphere.DAL
             }
 
             var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
-            var s = _context.Anchors.First(anchor => anchor.CreatedAt == max);
-            return GetById(s.Id);
-
+            var lastAnchor = _context.Anchors.First(anchor => anchor.CreatedAt == max);
+            return GetById(lastAnchor.Id);
         }
     }
 }
