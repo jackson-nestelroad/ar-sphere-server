@@ -99,9 +99,9 @@ namespace ARSphere.DTO.Helpers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static UserViewModel ToViewModel(this User user)
+        public static ProfileViewModel ToViewModel(this User user)
         {
-            return new UserViewModel
+            return new ProfileViewModel
             {
                 Id = user.Id,
                 Username = user.Username,

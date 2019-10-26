@@ -27,7 +27,7 @@ namespace ARSphere.Controllers
         }
 
         [HttpGet("{id}")]
-        public UserViewModel GetById(int id)
+        public ProfileViewModel GetById(int id)
         {
             var entity = _service.GetById(id);
 
