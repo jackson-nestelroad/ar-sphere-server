@@ -29,7 +29,7 @@ namespace ARSphere.Controllers
         [HttpGet("{id}")]
         public UserViewModelPublic GetById(int id)
         {
-            var entity = _service.GetById(id);
+            var entity = _service.GetPublicById(id);
 
             if (entity == null)
             {
