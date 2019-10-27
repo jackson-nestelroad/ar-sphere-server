@@ -12,10 +12,10 @@ namespace ARSphere.Models
         public string Id { get; set; }
 
         [Required(ErrorMessage = "X-coordinate required.")]
-        public double X { get; set; }
+        public double Longitude { get; set; }
 
         [Required(ErrorMessage = "Y-coordinate required.")]
-        public double Y { get; set; }
+        public double Latitude { get; set; }
 
         [Required(ErrorMessage = "AR Model ID required.")]
         public int Model { get; set; }
@@ -25,11 +25,11 @@ namespace ARSphere.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (X <= -90 || X >= 90)
+            if (Latitude <= -90 || Latitude >= 90)
             {
                 yield return new ValidationResult("X-coordinate out of range.", new[] { "X" });
             }
-            if (Y <= -180 || Y >= 180)
+            if (Longitude <= -180 || Longitude >= 180)
             {
                 yield return new ValidationResult("Y-coordinate out of range.", new[] { "Y" });
             }
