@@ -38,13 +38,9 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
-        public List<AnchorViewModel> GetAnchorsNear(Coordinate loc, double rad)
+        public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
         {
-            var res = _anchorService.GetAnchorsNear(loc, rad);
-            if (res != null) 
-                return res;
-            else 
-                throw new HubException("No anchors near this location.");
+            return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude));
         }
     }
 }

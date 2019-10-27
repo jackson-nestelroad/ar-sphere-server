@@ -24,23 +24,21 @@ namespace ARSphere.DAL
         public AnchorViewModel GetById(string id)
         {
             var query = from anchor in _context.Anchors
-                                .Where(a => a.Id == id)
-                            from user in _context.Users
-                                .Where(u => u.Id == anchor.CreatedBy)
-                                .DefaultIfEmpty()
-                            from model in _context.ARModels
-                                .Where(m => m.Id == anchor.Model)
-                                .DefaultIfEmpty()
-                            from promotion in _context.Promotions
-                                .Where(p => p.Id == model.Promotion)
-                                .DefaultIfEmpty()
-                            from sponsor in _context.Sponsors
-                                .Where(s => s.Id == promotion.Sponsor)
-                                .DefaultIfEmpty()
-                            select anchor.ToViewModel(user, model, promotion, sponsor);
-            var selection = query.ToList();
-
-            return selection.Any() ? selection.First() : null;
+                            .Where(a => a.Id == id)
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.FirstOrDefault();
         }
 
         public async Task CreateAnchor(NewAnchorModel model)
@@ -63,33 +61,44 @@ namespace ARSphere.DAL
                 return null;
             }
 
-            var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
-            var lastAnchor = _context.Anchors.First(anchor => anchor.CreatedAt == max);
-            return GetById(lastAnchor.Id);
+            var mostRecent = _context.Anchors.Max(anchor => anchor.CreatedAt);
+
+            var query = from anchor in _context.Anchors
+                            .Where(a => a.CreatedAt == mostRecent)
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.FirstOrDefault();
         }
 
-        /*
-         * Returns list of AnchorViewModels near a radius. 
-         * Should theoretically work.
-         */
-        public List<AnchorViewModel> GetAnchorsNear(Coordinate loc, double rad)
+        public IEnumerable<AnchorViewModel> GetAnchorsInRadius(Point location, double radius)
         {
-            List<AnchorViewModel> near = new List<AnchorViewModel>();
-
-            if (_context.Anchors.Any())
-            {
-                _context.Anchors.ToList().ForEach(anchor =>
-                {
-                    if (anchor.Location.IsWithinDistance(anchor.Location, rad))
-                    {
-                        near.Add(GetById(anchor.Id));
-                    }
-                });
-
-                return near;
-            }
-            else return null;
-            
+            var query = from anchor in _context.Anchors
+                            .Where(a => a.Location.IsWithinDistance(location, radius))
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.ToList();
         }
     }
 }
