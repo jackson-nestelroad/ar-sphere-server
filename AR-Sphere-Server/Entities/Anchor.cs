@@ -1,10 +1,13 @@
-﻿using NetTopologySuite.Geometries;
+﻿using ARSphere.DTO.Converters;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ARSphere.Entities
@@ -21,6 +24,7 @@ namespace ARSphere.Entities
         [ForeignKey("ARModel")]
         public int Model { get; set; }
 
+        [JsonConverter(typeof(PointConverter))]
         public Point Location { get; set; }
 
         [ForeignKey("User")]
