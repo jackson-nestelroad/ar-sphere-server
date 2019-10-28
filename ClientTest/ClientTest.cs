@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using ARSphere.Models;
 using ARSphere.DTO;
+using System.Linq;
 
 namespace ClientTest
 {
     class ClientTest
     {
         private HubConnection connection;
-        // private string Url = "https://localhost:44336/connect";
-        private string Url = "https://ar-sphere-server.azurewebsites.net/connect";
+        private string Url = "https://localhost:44336/connect";
+        // private string Url = "https://ar-sphere-server.azurewebsites.net/connect";
         private bool Connected = false;
 
         public ClientTest()
@@ -76,19 +77,10 @@ namespace ClientTest
                 string res = await connection.InvokeAsync<string>("Ping", "Hello world!");
                 Console.WriteLine("Response: " + res);
 
-                //NewAnchorModel newAnchor = new NewAnchorModel
-                //{
-                //	Id = "SAMPLE_ID",
-                //	X = 0,
-                //	Y = 0,
-                //	Model = 0,
-                //	Creator = 0
-                //};
+                AnchorViewModel lastAnchor = await connection.InvokeAsync<AnchorViewModel>("GetLastAnchor");
 
-                //await connection.InvokeAsync("CreateAnchor", newAnchor);
-
-                AnchorViewModel m = await connection.InvokeAsync<AnchorViewModel>("GetLastAnchor");
-                Console.WriteLine(m.Id);
+                IEnumerable<AnchorViewModel> nearbyAnchors = await connection.InvokeAsync<IEnumerable<AnchorViewModel>>("GetNearbyAnchors", 59, 17);
+                Console.WriteLine(string.Join(", ", nearbyAnchors.Select(m => m.Id)));
             }
             catch (Exception ex)
             {
