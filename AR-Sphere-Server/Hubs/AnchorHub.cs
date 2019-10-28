@@ -40,7 +40,7 @@ namespace ARSphere.Hubs
 
         public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
         {
-            return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude));
+            return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude) { SRID = 4326 });
         }
     }
 }
