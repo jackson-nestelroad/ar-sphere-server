@@ -1,0 +1,46 @@
+[
+    {
+        "Id": "seed-anchor-1",
+        "Model": 0,
+        "Location": {
+            "x": 58.99949,
+            "y": 16.99949
+        },
+        "CreatedBy": 1,
+        "CreatedAt": "2019-10-27T02:37:00",
+        "Likes": ""
+    },
+    {
+        "Id": "seed-anchor-2",
+        "Model": 0,
+        "Location": {
+            "x": 59.00149,
+            "y": 17.00149
+        },
+        "CreatedBy": 1,
+        "CreatedAt": "2019-10-27T08:59:00",
+        "Likes": ""
+    },
+    {
+        "Id": "seed-anchor-3",
+        "Model": 0,
+        "Location": {
+            "x": 59,
+            "y": 17
+        },
+        "CreatedBy": 1,
+        "CreatedAt": "2019-10-27T09:00:00",
+        "Likes": ""
+    },
+    {
+        "Id": "seed-anchor-4",
+        "Model": 0,
+        "Location": {
+            "x": 59.00149,
+            "y": 17
+        },
+        "CreatedBy": 1,
+        "CreatedAt": "2019-10-27T09:01:00",
+        "Likes": ""
+    }
+]
