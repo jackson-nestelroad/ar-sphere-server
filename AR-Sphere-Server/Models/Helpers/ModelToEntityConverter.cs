@@ -28,7 +28,7 @@ namespace ARSphere.Models.Helpers
             };
         }
 
-        public static Anchor ToEntity(this NewAnchorModel anchorModel)
+        public static Anchor ToEntity(this NewAnchorModel anchorModel, int creatorId)
         {
             return new Anchor
             {
@@ -38,7 +38,7 @@ namespace ARSphere.Models.Helpers
                 {
                     SRID = 4326
                 },
-                CreatedBy = anchorModel.Creator,
+                CreatedBy = creatorId,
                 CreatedAt = DateTime.UtcNow,
                 LikedBy = null
             };
