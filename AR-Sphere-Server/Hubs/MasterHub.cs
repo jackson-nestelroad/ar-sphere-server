@@ -32,11 +32,7 @@ namespace ARSphere.Hubs
 
         public override Task OnConnectedAsync()
         {
-            ClientMap.Add(Context.ConnectionId, new Client
-            {
-                X = double.NaN,
-                Y = double.NaN
-            });
+            ClientMap.Add(Context.ConnectionId, new Client());
             return base.OnConnectedAsync();
         }
 
