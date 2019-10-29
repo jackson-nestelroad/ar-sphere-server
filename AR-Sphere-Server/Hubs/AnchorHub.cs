@@ -13,11 +13,6 @@ namespace ARSphere.Hubs
 {
     public partial class MasterHub : Hub<IClient>
     {
-        public Task CreateAnchor(NewAnchorModel model)
-        {
-            return _anchorService.CreateAnchor(model);
-        }
-
         public AnchorViewModel GetAnchor(string id)
         {
             var anchor = _anchorService.GetById(id);
@@ -38,8 +33,26 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
+        public async Task CreateAnchor(NewAnchorModel anchor)
+        {
+            var newAnchor = await _anchorService.CreateAnchorAndGet(anchor, CurrentClient.UserId);
+            DispatchAnchor(newAnchor);
+        }
+
+        private void DispatchAnchor(AnchorViewModel anchor)
+        {
+            var connectionsInRange = from kvp in ClientMap
+                                     where kvp.Value.Location.IsWithinDistance(anchor.Location, 100)
+                                     select kvp.Key;
+            foreach (string connectionId in connectionsInRange)
+            {
+                Clients.Client(connectionId).NewNearbyAnchor(anchor);
+            }
+        }
+
         public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
         {
+            CurrentClient.SetLocation(longitude, latitude);
             return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude) { SRID = 4326 });
         }
     }
