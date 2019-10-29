@@ -39,6 +39,7 @@ namespace ARSphere.DTO.Helpers
             {
                 Id = anchor.Id,
                 Model = model?.ToViewModel(promotion, sponsor) ?? null,
+                Location = anchor.Location,
                 CreatedBy = user?.ToViewModelPublic() ?? null,
                 CreatedAt = anchor.CreatedAt,
                 LikedBy = anchor.LikedBy
