@@ -6,6 +6,7 @@ using ARSphere.Models;
 using ARSphere.Models.Helpers;
 using ARSphere.Persistent;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,23 +23,22 @@ namespace ARSphere.DAL
 
         public AnchorViewModel GetById(string id)
         {
-            var selection = from anchor in _context.Anchors
-                                .Where(a => a.Id == id)
-                            from user in _context.Users
-                                .Where(u => u.Id == anchor.CreatedBy)
-                                .DefaultIfEmpty()
-                            from model in _context.ARModels
-                                .Where(m => m.Id == anchor.Model)
-                                .DefaultIfEmpty()
-                            from promotion in _context.Promotions
-                                .Where(p => p.Id == model.Promotion)
-                                .DefaultIfEmpty()
-                            from sponsor in _context.Sponsors
-                                .Where(s => s.Id == promotion.Sponsor)
-                                .DefaultIfEmpty()
-                            select anchor.ToViewModel(user, model, promotion, sponsor);
-
-            return selection.Any() ? selection.First() : null;
+            var query = from anchor in _context.Anchors
+                            .Where(a => a.Id == id)
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.FirstOrDefault();
         }
 
         public async Task CreateAnchor(NewAnchorModel model)
@@ -61,10 +61,44 @@ namespace ARSphere.DAL
                 return null;
             }
 
-            var max = _context.Anchors.Select(anchor => anchor.CreatedAt).Max();
-            var s = _context.Anchors.First(anchor => anchor.CreatedAt == max);
-            return GetById(s.Id);
+            var mostRecent = _context.Anchors.Max(anchor => anchor.CreatedAt);
 
+            var query = from anchor in _context.Anchors
+                            .Where(a => a.CreatedAt == mostRecent)
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.FirstOrDefault();
+        }
+
+        public IEnumerable<AnchorViewModel> GetAnchorsInRadius(Point location, double radius)
+        {
+            var query = from anchor in _context.Anchors
+                            .Where(a => a.Location.IsWithinDistance(location, radius))
+                        from user in _context.Users
+                            .Where(u => u.Id == anchor.CreatedBy)
+                            .DefaultIfEmpty()
+                        from model in _context.ARModels
+                            .Where(m => m.Id == anchor.Model)
+                            .DefaultIfEmpty()
+                        from promotion in _context.Promotions
+                            .Where(p => p.Id == model.Promotion)
+                            .DefaultIfEmpty()
+                        from sponsor in _context.Sponsors
+                            .Where(s => s.Id == promotion.Sponsor)
+                            .DefaultIfEmpty()
+                        select anchor.ToViewModel(user, model, promotion, sponsor);
+            return query.ToList();
         }
     }
 }

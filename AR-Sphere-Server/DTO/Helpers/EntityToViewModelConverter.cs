@@ -39,7 +39,7 @@ namespace ARSphere.DTO.Helpers
             {
                 Id = anchor.Id,
                 Model = model?.ToViewModel(promotion, sponsor) ?? null,
-                CreatedBy = user?.ToViewModel() ?? null,
+                CreatedBy = user?.ToViewModelPublic() ?? null,
                 CreatedAt = anchor.CreatedAt,
                 LikedBy = anchor.LikedBy
             };
@@ -99,14 +99,33 @@ namespace ARSphere.DTO.Helpers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static UserViewModel ToViewModel(this User user)
+        public static UserViewModelPublic ToViewModelPublic(this User user)
         {
-            return new UserViewModel
+            return new UserViewModelPublic
             {
                 Id = user.Id,
                 Username = user.Username,
                 RegisteredAt = user.RegisteredAt,
                 ProfileImageUrl = user.ProfileImageUrl,
+                Level = user.Level
+            };
+        }
+
+        /// <summary>
+        /// <para>Converts a User entity to its corresponding View Model.</para>
+        /// <para>To be used for giving all private profile data to its owner.</para>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static UserViewModelPrivate ToViewModelPrivate (this User user)
+        {
+            return new UserViewModelPrivate
+            {
+                Id = user.Id,
+                Username = user.Username,
+                RegisteredAt = user.RegisteredAt,
+                ProfileImageUrl = user.ProfileImageUrl,
+                Currency = user.Currency,
                 Level = user.Level
             };
         }

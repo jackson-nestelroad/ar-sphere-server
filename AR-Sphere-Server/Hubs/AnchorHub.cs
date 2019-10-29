@@ -3,6 +3,7 @@ using ARSphere.DTO;
 using ARSphere.Middleware.Validation;
 using ARSphere.Models;
 using Microsoft.AspNetCore.SignalR;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,12 @@ namespace ARSphere.Hubs
             {
                 throw new HubException($"No last anchor exists.");
             }
-
             return anchor;
         }
 
+        public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
+        {
+            return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude) { SRID = 4326 });
+        }
     }
 }

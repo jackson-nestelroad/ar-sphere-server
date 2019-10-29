@@ -34,7 +34,7 @@ namespace ARSphere.Models.Helpers
             {
                 Id = anchorModel.Id,
                 Model = anchorModel.Model,
-                Location = new Point(anchorModel.X, anchorModel.Y)
+                Location = new Point(anchorModel.Longitude, anchorModel.Latitude)
                 {
                     SRID = 4326
                 },

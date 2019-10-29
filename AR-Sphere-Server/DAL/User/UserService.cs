@@ -20,13 +20,22 @@ namespace ARSphere.DAL
     {
         public UserService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
-        public UserViewModel GetById(int id)
+        public UserViewModelPublic GetPublicById(int id)
         {
-            var selection = from user in _context.Users
+            var query = from user in _context.Users
                             where user.Id == id
                             select user;
+            var selection = query.ToList();
+            return selection.Any() ? selection.First().ToViewModelPublic() : null;
+        }
 
-            return selection.Any() ? selection.First().ToViewModel() : null;
+        public UserViewModelPrivate GetPrivateById(int id)
+        {
+            var query = from user in _context.Users
+                        where user.Id == id
+                        select user;
+            var selection = query.ToList();
+            return selection.Any() ? selection.First().ToViewModelPrivate() : null;
         }
 
         public User RegisterUser(RegisterModel model)

@@ -25,6 +25,10 @@ namespace ARSphere.Persistent
             {
                 sum += dbSeeder.SeedUserEntitiesFromJson().Result;
             }
+            if(!context.Anchors.Any())
+            {
+                sum += dbSeeder.SeedAnchorEntitiesFromJson().Result;
+            }
 
             return sum;
         }
