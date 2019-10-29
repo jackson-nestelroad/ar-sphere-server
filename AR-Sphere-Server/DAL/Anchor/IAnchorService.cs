@@ -11,7 +11,8 @@ namespace ARSphere.DAL
     public interface IAnchorService
     {
         public AnchorViewModel GetById(string id);
-        public Task CreateAnchor(NewAnchorModel model);
+        public Task CreateAnchor(NewAnchorModel model, int creatorId);
+        public Task<AnchorViewModel> CreateAnchorAndGet(NewAnchorModel anchor, int creatorId);
         public AnchorViewModel GetLast();
         public IEnumerable<AnchorViewModel> GetAnchorsInRadius(Point location, double radius = 100);
 	}
