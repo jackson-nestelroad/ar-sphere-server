@@ -1,4 +1,5 @@
 ﻿using ARSphere.DTO;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ARSphere.Hubs
     /// </summary>
     public interface IClient
     {
-
+        Task NewNearbyAnchor(AnchorViewModel anchor);
     }
 
     /// <summary>
@@ -19,8 +20,13 @@ namespace ARSphere.Hubs
     /// </summary>
     public class Client
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        public Point Location { get; set; }
         public int UserId { get; set; }
+
+        public void SetLocation(double longitude, double latitude)
+        {
+            Location.X = longitude;
+            Location.Y = latitude;
+        }
     }
 }

@@ -41,9 +41,10 @@ namespace ARSphere.DAL
             return query.FirstOrDefault();
         }
 
-        public async Task CreateAnchor(NewAnchorModel model)
+        public async Task CreateAnchor(NewAnchorModel model, int creatorId)
         {
-            _context.Anchors.Add(model.ToEntity());
+            _validation.Validate(model);
+            _context.Anchors.Add(model.ToEntity(creatorId));
             try
             {
                 await _context.SaveChangesAsync();
@@ -52,6 +53,13 @@ namespace ARSphere.DAL
             {
                 throw new Exception(ex.InnerException.Message);
             }
+        }
+
+        public async Task<AnchorViewModel> CreateAnchorAndGet(NewAnchorModel model, int creatorId)
+        {
+            await CreateAnchor(model, creatorId);
+            return GetById(model.Id);
+
         }
 
         public AnchorViewModel GetLast()

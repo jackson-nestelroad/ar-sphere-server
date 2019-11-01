@@ -20,9 +20,6 @@ namespace ARSphere.Models
         [Required(ErrorMessage = "AR Model ID required.")]
         public int Model { get; set; }
 
-        [Required(ErrorMessage = "User ID required.")]
-        public int Creator { get; set; }
-
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Latitude <= -90 || Latitude >= 90)
