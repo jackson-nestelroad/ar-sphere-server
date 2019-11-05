@@ -28,6 +28,12 @@ namespace ARSphere.Models.Helpers
             };
         }
 
+        /// <summary>
+        /// <para>Converts model data for an Anchor into an entity for the database.</para>
+        /// </summary>
+        /// <param name="anchorModel"></param>
+        /// <param name="creatorId"></param>
+        /// <returns></returns>
         public static Anchor ToEntity(this NewAnchorModel anchorModel, int creatorId)
         {
             return new Anchor
