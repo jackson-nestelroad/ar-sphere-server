@@ -39,21 +39,35 @@ namespace ARSphere.Hubs
             DispatchAnchor(newAnchor);
         }
 
+        public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
+        {
+            CurrentClient.SetLocation(longitude, latitude);
+            return _anchorService.GetAnchorsInRadius(CurrentClient.Location, Radius);
+        }
+
+        public Task LikeAnchor(string anchorId)
+        {
+            var updateView = _anchorService.LikeAnchor(anchorId, CurrentClient.UserId);
+            DispatchLikeUpdate(updateView);
+            return Task.CompletedTask;
+        }
+
         private void DispatchAnchor(AnchorViewModel anchor)
         {
-            var connectionsInRange = from kvp in ClientMap
-                                     where kvp.Value.Location.IsWithinDistance(anchor.Location, 100)
-                                     select kvp.Key;
-            foreach (string connectionId in connectionsInRange)
+            var connections = ConnectionsInRange(anchor.Location);
+            foreach (string connectionId in connections)
             {
                 Clients.Client(connectionId).NewNearbyAnchor(anchor);
             }
         }
 
-        public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
+        private void DispatchLikeUpdate(AnchorLikedViewModel anchor)
         {
-            CurrentClient.SetLocation(longitude, latitude);
-            return _anchorService.GetAnchorsInRadius(new Point(longitude, latitude) { SRID = 4326 });
+            var connections = ConnectionsInRange(anchor.Location);
+            foreach(string connectionId in connections)
+            {
+                Clients.Client(connectionId).UpdateAnchorLikes(anchor);
+            }
         }
     }
 }
