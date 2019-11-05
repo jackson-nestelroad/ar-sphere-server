@@ -13,6 +13,7 @@ namespace ARSphere.Hubs
     public interface IClient
     {
         Task NewNearbyAnchor(AnchorViewModel anchor);
+        Task UpdateAnchorLikes(AnchorLikedViewModel anchor);
     }
 
     /// <summary>
@@ -22,6 +23,11 @@ namespace ARSphere.Hubs
     {
         public Point Location { get; set; }
         public int UserId { get; set; }
+
+        public Client()
+        {
+            Location = new Point(double.NaN, double.NaN) { SRID = 4326 };
+        }
 
         public void SetLocation(double longitude, double latitude)
         {

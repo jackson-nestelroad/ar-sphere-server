@@ -2,6 +2,7 @@
 using ARSphere.Middleware.ExceptionHandling;
 using ARSphere.Persistent;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,7 +26,10 @@ namespace ARSphere.Extensions
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<MasterHub>("/connect");
+                endpoints.MapHub<MasterHub>("/connect", options =>
+                {
+                    options.Transports = HttpTransportType.WebSockets;
+                });
                 endpoints.MapControllers();
             });
         }

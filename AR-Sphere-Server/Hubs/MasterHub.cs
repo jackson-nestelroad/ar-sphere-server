@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using ARSphere.DAL;
 using ARSphere.DTO;
 using Microsoft.AspNetCore.SignalR;
+using NetTopologySuite.Geometries;
 
 namespace ARSphere.Hubs
 {
     public partial class MasterHub : Hub<IClient>
     {
-        private IAnchorService _anchorService;
-        private IUserService _userService;
-        private Dictionary<string, Client> ClientMap;
+        private readonly IAnchorService _anchorService;
+        private readonly IUserService _userService;
+        private static readonly Dictionary<string, Client> ClientMap = new Dictionary<string, Client>();
 
         private Client CurrentClient => ClientMap[Context.ConnectionId];
+
+        private readonly int Radius = 100;
 
         public MasterHub(
             IAnchorService anchorService,
@@ -22,7 +25,6 @@ namespace ARSphere.Hubs
         {
             _anchorService = anchorService;
             _userService = userService;
-            ClientMap = new Dictionary<string, Client>();
         }
 
         public string Ping(string message)
@@ -40,6 +42,13 @@ namespace ARSphere.Hubs
         {
             ClientMap.Remove(Context.ConnectionId);
             return base.OnDisconnectedAsync(exception);
+        }
+
+        private IEnumerable<string> ConnectionsInRange(Point center)
+        {
+            return from kvp in ClientMap
+                   where kvp.Value.Location.IsWithinDistance(center, Radius)
+                   select kvp.Key;
         }
     }
 }

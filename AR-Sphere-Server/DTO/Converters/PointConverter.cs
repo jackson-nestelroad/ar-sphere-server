@@ -17,7 +17,7 @@ namespace ARSphere.DTO.Converters
         public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             JsonElement parsed = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
-            return new Point(parsed.GetProperty("x").GetDouble(), parsed.GetProperty("y").GetDouble()) 
+            return new Point(parsed.GetProperty("X").GetDouble(), parsed.GetProperty("Y").GetDouble()) 
             {
                 SRID = 4326
             };
@@ -25,7 +25,10 @@ namespace ARSphere.DTO.Converters
 
         public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
         {
-            throw new NotImplementedException();
+            writer.WriteStartObject();
+            writer.WriteNumber("X", value.X);
+            writer.WriteNumber("Y", value.Y);
+            writer.WriteEndObject();
         }
     }
 }

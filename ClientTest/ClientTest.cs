@@ -11,9 +11,9 @@ namespace ClientTest
 {
     class ClientTest
     {
-        private HubConnection connection;
-        private string Url = "https://localhost:44336/connect";
-        // private string Url = "https://ar-sphere-server.azurewebsites.net/connect";
+        private readonly HubConnection connection;
+        private readonly string Url = "https://localhost:44336/connect";
+        // private readonly string Url = "https://ar-sphere-server.azurewebsites.net/connect";
         private bool Connected = false;
 
         public ClientTest()
@@ -25,7 +25,10 @@ namespace ClientTest
             connection.Closed += async (error) =>
             {
                 Console.WriteLine("Connection closed.");
-                await connection.StartAsync();
+                if(Connected)
+                {
+                    await connection.StartAsync();
+                }
             };
         }
 
@@ -78,6 +81,7 @@ namespace ClientTest
                 Console.WriteLine("Response: " + res);
 
                 AnchorViewModel lastAnchor = await connection.InvokeAsync<AnchorViewModel>("GetLastAnchor");
+                Console.WriteLine(lastAnchor.Id);
 
                 IEnumerable<AnchorViewModel> nearbyAnchors = await connection.InvokeAsync<IEnumerable<AnchorViewModel>>("GetNearbyAnchors", 59, 17);
                 Console.WriteLine(string.Join(", ", nearbyAnchors.Select(m => m.Id)));
