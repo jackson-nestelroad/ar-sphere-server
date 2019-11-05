@@ -21,6 +21,14 @@ namespace ARSphere.DAL
     {
         public AnchorService(DatabaseContext _context, IValidationService _validation) : base(_context, _validation) { }
 
+        private Anchor GetEntityById(string id)
+        {
+            var query = from anchor in _context.Anchors
+                        where anchor.Id == id
+                        select anchor;
+            return query.FirstOrDefault();
+        }
+
         public AnchorViewModel GetById(string id)
         {
             var query = from anchor in _context.Anchors
@@ -107,6 +115,15 @@ namespace ARSphere.DAL
                             .DefaultIfEmpty()
                         select anchor.ToViewModel(user, model, promotion, sponsor);
             return query.ToList();
+        }
+
+        public AnchorLikedViewModel LikeAnchor(string anchorId, int userId)
+        {
+            Anchor anchor = GetEntityById(anchorId);
+            anchor.LikedBy.Add(userId);
+            _context.Anchors.Update(anchor);
+            _context.SaveChangesAsync();
+            return anchor.ToLikedViewModel();
         }
     }
 }
