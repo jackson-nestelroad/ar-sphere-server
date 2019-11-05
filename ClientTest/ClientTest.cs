@@ -11,7 +11,7 @@ namespace ClientTest
 {
     class ClientTest
     {
-        private HubConnection connection;
+        private readonly HubConnection connection;
         private readonly string Url = "https://localhost:44336/connect";
         // private readonly string Url = "https://ar-sphere-server.azurewebsites.net/connect";
         private bool Connected = false;
@@ -22,12 +22,13 @@ namespace ClientTest
                 .WithUrl(Url)
                 .Build();
 
-            connection.ServerTimeout = TimeSpan.FromSeconds(10);
-
             connection.Closed += async (error) =>
             {
                 Console.WriteLine("Connection closed.");
-                await connection.StartAsync();
+                if(Connected)
+                {
+                    await connection.StartAsync();
+                }
             };
         }
 
