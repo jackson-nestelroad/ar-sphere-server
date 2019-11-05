@@ -118,7 +118,7 @@ namespace ARSphere.DTO.Helpers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static UserViewModelPrivate ToViewModelPrivate (this User user)
+        public static UserViewModelPrivate ToViewModelPrivate(this User user)
         {
             return new UserViewModelPrivate
             {
@@ -128,6 +128,21 @@ namespace ARSphere.DTO.Helpers
                 ProfileImageUrl = user.ProfileImageUrl,
                 Currency = user.Currency,
                 Level = user.Level
+            };
+        }
+
+        /// <summary>
+        /// <para>Converts an Anchor entity to the view model for updated like field.</para>
+        /// </summary>
+        /// <param name="anchor"></param>
+        /// <returns></returns>
+        public static AnchorLikedViewModel ToLikedViewModel(this Anchor anchor)
+        {
+            return new AnchorLikedViewModel
+            {
+                Id = anchor.Id,
+                Location = anchor.Location,
+                LikedBy = anchor.LikedBy
             };
         }
     }
