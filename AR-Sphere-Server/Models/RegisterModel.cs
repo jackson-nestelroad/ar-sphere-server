@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Models
 {
+    /// <summary>
+    /// <para>User input for registering a new user.</para>
+    /// </summary>
     public class RegisterModel : IValidatableObject
     {
         [Required(ErrorMessage = "Username required.")]

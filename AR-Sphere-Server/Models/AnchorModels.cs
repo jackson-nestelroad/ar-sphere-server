@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ARSphere.Models
 {
+    /// <summary>
+    /// <para>User input for creating a new anchor.</para>
+    /// </summary>
     public class NewAnchorModel : IValidatableObject
     {
         [Required(ErrorMessage = "Cloud Anchor ID required.")]
@@ -33,6 +36,9 @@ namespace ARSphere.Models
         }
     }
 
+    /// <summary>
+    /// <para>User input for updating an old anchor to a new one.</para>
+    /// </summary>
     public class UpdateAnchorModel
     {
         [Required(ErrorMessage = "Old Cloud Anchor ID required.")]
