@@ -129,10 +129,11 @@ namespace ARSphere.DAL
         public AnchorDeletedViewModel Delete(string id)
         {
             var entity = _context.Anchors.FirstOrDefault(a => a.Id == id);
-            if (entity != null)
+            if(entity == null)
             {
-                _context.Anchors.Remove(entity);
+                throw new ArgumentException($"Anchor id {id} not found.");
             }
+            _context.Anchors.Remove(entity);
             _context.SaveChangesAsync();
             return entity.ToDeletedViewModel();
         }
