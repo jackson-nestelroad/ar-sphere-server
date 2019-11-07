@@ -33,41 +33,28 @@ namespace ARSphere.Hubs
             return anchor;
         }
 
-        public async Task CreateAnchor(NewAnchorModel anchor)
-        {
-            var newAnchor = await _anchorService.CreateAnchorAndGet(anchor, CurrentClient.UserId);
-            DispatchAnchor(newAnchor);
-        }
-
         public IEnumerable<AnchorViewModel> GetNearbyAnchors(double longitude, double latitude)
         {
             CurrentClient.SetLocation(longitude, latitude);
-            return _anchorService.GetAnchorsInRadius(CurrentClient.Location, Radius);
+            return _anchorService.GetInRadius(CurrentClient.Location, Radius);
         }
 
-        public Task LikeAnchor(string anchorId)
+        public async void CreateAnchor(NewAnchorModel anchor)
         {
-            var updateView = _anchorService.LikeAnchor(anchorId, CurrentClient.UserId);
-            DispatchLikeUpdate(updateView);
-            return Task.CompletedTask;
+            var newAnchor = await _anchorService.CreateAndGet(anchor, CurrentClient.UserId);
+            Dispatch(newAnchor.Location, c => c.NewNearbyAnchor(newAnchor));
         }
 
-        private void DispatchAnchor(AnchorViewModel anchor)
+        public void LikeAnchor(string anchorId)
         {
-            var connections = ConnectionsInRange(anchor.Location);
-            foreach (string connectionId in connections)
-            {
-                Clients.Client(connectionId).NewNearbyAnchor(anchor);
-            }
+            var updateView = _anchorService.Like(anchorId, CurrentClient.UserId);
+            Dispatch(updateView.Location, c => c.UpdateAnchorLikes(updateView));
         }
 
-        private void DispatchLikeUpdate(AnchorLikedViewModel anchor)
+        public void DeleteAnchor(string anchorId)
         {
-            var connections = ConnectionsInRange(anchor.Location);
-            foreach(string connectionId in connections)
-            {
-                Clients.Client(connectionId).UpdateAnchorLikes(anchor);
-            }
+            var deleteView = _anchorService.Delete(anchorId);
+            Dispatch(deleteView.Location, c => c.AnchorDeleted(deleteView));
         }
     }
 }
