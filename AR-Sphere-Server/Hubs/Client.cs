@@ -14,6 +14,7 @@ namespace ARSphere.Hubs
     {
         Task NewNearbyAnchor(AnchorViewModel anchor);
         Task UpdateAnchorLikes(AnchorLikedViewModel anchor);
+        Task AnchorDeleted(AnchorDeletedViewModel anchor);
     }
 
     /// <summary>
