@@ -42,16 +42,15 @@ namespace ARSphere.Entities
         public string Likes { get; private set; } = "";
 
         [NotMapped]
-        public List<int> LikedBy
+        public ISet<int> LikedBy
         {
             get
             {
                 return Likes.Split(',').Select(str =>
                 {
-                    int value;
-                    bool success = int.TryParse(str, out value);
+                    bool success = int.TryParse(str, out int value);
                     return new { success, value };
-                }).Where(pair => pair.success).Select(pair => pair.value).ToList();
+                }).Where(pair => pair.success).Select(pair => pair.value).ToHashSet();
             }
             set
             {
