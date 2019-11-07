@@ -117,10 +117,17 @@ namespace ARSphere.DAL
             return query.ToList();
         }
 
-        public AnchorLikedViewModel Like(string anchorId, int userId)
+        public AnchorLikedViewModel ToggleLike(string anchorId, int userId)
         {
             Anchor anchor = GetEntityById(anchorId);
-            anchor.LikedBy.Add(userId);
+            if (anchor.LikedBy.Contains(userId))
+            {
+                anchor.LikedBy.Remove(userId);
+            }
+            else
+            {
+                anchor.LikedBy.Add(userId);
+            }
             _context.Anchors.Update(anchor);
             _context.SaveChangesAsync();
             return anchor.ToLikedViewModel();
@@ -129,7 +136,7 @@ namespace ARSphere.DAL
         public AnchorDeletedViewModel Delete(string id)
         {
             var entity = _context.Anchors.FirstOrDefault(a => a.Id == id);
-            if(entity == null)
+            if (entity == null)
             {
                 throw new ArgumentException($"Anchor id {id} not found.");
             }

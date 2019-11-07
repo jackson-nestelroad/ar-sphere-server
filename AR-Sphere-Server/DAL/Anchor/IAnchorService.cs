@@ -15,7 +15,7 @@ namespace ARSphere.DAL
         public Task<AnchorViewModel> CreateAndGet(NewAnchorModel anchor, int creatorId);
         public AnchorViewModel GetLast();
         public IEnumerable<AnchorViewModel> GetInRadius(Point location, double radius);
-        public AnchorLikedViewModel Like(string anchorId, int userId);
+        public AnchorLikedViewModel ToggleLike(string anchorId, int userId);
         public AnchorDeletedViewModel Delete(string id);
 	}
 }
