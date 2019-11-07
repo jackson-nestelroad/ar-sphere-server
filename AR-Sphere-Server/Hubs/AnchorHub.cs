@@ -45,9 +45,9 @@ namespace ARSphere.Hubs
             Dispatch(newAnchor.Location, c => c.NewNearbyAnchor(newAnchor));
         }
 
-        public void LikeAnchor(string anchorId)
+        public void ToggleLikeAnchor(string anchorId)
         {
-            var updateView = _anchorService.Like(anchorId, CurrentClient.UserId);
+            var updateView = _anchorService.ToggleLike(anchorId, CurrentClient.UserId);
             Dispatch(updateView.Location, c => c.UpdateAnchorLikes(updateView));
         }
 

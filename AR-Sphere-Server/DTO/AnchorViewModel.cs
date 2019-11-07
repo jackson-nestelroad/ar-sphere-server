@@ -23,7 +23,7 @@ namespace ARSphere.DTO
         public DateTime CreatedAt { get; set; }
         // TODO: Change to LikeCount and LikedByUser
         // LikedByUser would be retrieved by the current user's Authentication, since their ID is linked to it with each request
-        public List<int> LikedBy { get; set; }
+        public ISet<int> LikedBy { get; set; }
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ namespace ARSphere.DTO
         [JsonConverter(typeof(PointConverter))]
         public Point Location { get; set; }
 
-        public List<int> LikedBy { get; set; }
+        public ISet<int> LikedBy { get; set; }
     }
 
     /// <summary>
