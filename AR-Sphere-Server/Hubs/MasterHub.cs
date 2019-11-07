@@ -50,5 +50,14 @@ namespace ARSphere.Hubs
                    where kvp.Value.Location.IsWithinDistance(center, Radius)
                    select kvp.Key;
         }
+
+        private void Dispatch(Point center, Action<IClient> dispatch)
+        {
+            var connections = ConnectionsInRange(center);
+            foreach (string connectionId in connections)
+            {
+                dispatch.BeginInvoke(Clients.Client(connectionId), null, null);
+            }
+        }
     }
 }

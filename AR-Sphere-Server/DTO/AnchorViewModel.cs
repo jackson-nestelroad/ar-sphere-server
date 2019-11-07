@@ -38,4 +38,15 @@ namespace ARSphere.DTO
 
         public List<int> LikedBy { get; set; }
     }
+
+    /// <summary>
+    /// <para>Public data format to say a model has been deleted.</para>
+    /// </summary>
+    public class AnchorDeletedViewModel : BaseViewModel
+    {
+        public string Id { get; set; }
+
+        [JsonConverter(typeof(PointConverter))]
+        public Point Location { get; set; }
+    }
 }

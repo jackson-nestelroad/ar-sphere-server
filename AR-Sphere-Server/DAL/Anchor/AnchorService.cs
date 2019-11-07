@@ -49,7 +49,7 @@ namespace ARSphere.DAL
             return query.FirstOrDefault();
         }
 
-        public async Task CreateAnchor(NewAnchorModel model, int creatorId)
+        public async Task Create(NewAnchorModel model, int creatorId)
         {
             _validation.Validate(model);
             _context.Anchors.Add(model.ToEntity(creatorId));
@@ -63,9 +63,9 @@ namespace ARSphere.DAL
             }
         }
 
-        public async Task<AnchorViewModel> CreateAnchorAndGet(NewAnchorModel model, int creatorId)
+        public async Task<AnchorViewModel> CreateAndGet(NewAnchorModel model, int creatorId)
         {
-            await CreateAnchor(model, creatorId);
+            await Create(model, creatorId);
             return GetById(model.Id);
 
         }
@@ -97,7 +97,7 @@ namespace ARSphere.DAL
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<AnchorViewModel> GetAnchorsInRadius(Point location, double radius)
+        public IEnumerable<AnchorViewModel> GetInRadius(Point location, double radius)
         {
             var query = from anchor in _context.Anchors
                             .Where(a => a.Location.IsWithinDistance(location, radius))
@@ -117,13 +117,24 @@ namespace ARSphere.DAL
             return query.ToList();
         }
 
-        public AnchorLikedViewModel LikeAnchor(string anchorId, int userId)
+        public AnchorLikedViewModel Like(string anchorId, int userId)
         {
             Anchor anchor = GetEntityById(anchorId);
             anchor.LikedBy.Add(userId);
             _context.Anchors.Update(anchor);
             _context.SaveChangesAsync();
             return anchor.ToLikedViewModel();
+        }
+
+        public AnchorDeletedViewModel Delete(string id)
+        {
+            var entity = _context.Anchors.FirstOrDefault(a => a.Id == id);
+            if (entity != null)
+            {
+                _context.Anchors.Remove(entity);
+            }
+            _context.SaveChangesAsync();
+            return entity.ToDeletedViewModel();
         }
     }
 }

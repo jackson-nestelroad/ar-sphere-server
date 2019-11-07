@@ -145,5 +145,19 @@ namespace ARSphere.DTO.Helpers
                 LikedBy = anchor.LikedBy
             };
         }
+
+        /// <summary>
+        /// <para>Converts an Anchor entity to the view model for a deleted anchor.</para>
+        /// </summary>
+        /// <param name="anchor"></param>
+        /// <returns></returns>
+        public static AnchorDeletedViewModel ToDeletedViewModel(this Anchor anchor)
+        {
+            return new AnchorDeletedViewModel
+            {
+                Id = anchor.Id,
+                Location = anchor.Location
+            };
+        }
     }
 }
