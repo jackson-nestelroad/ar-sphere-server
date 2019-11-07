@@ -11,10 +11,11 @@ namespace ARSphere.DAL
     public interface IAnchorService
     {
         public AnchorViewModel GetById(string id);
-        public Task CreateAnchor(NewAnchorModel model, int creatorId);
-        public Task<AnchorViewModel> CreateAnchorAndGet(NewAnchorModel anchor, int creatorId);
+        public Task Create(NewAnchorModel model, int creatorId);
+        public Task<AnchorViewModel> CreateAndGet(NewAnchorModel anchor, int creatorId);
         public AnchorViewModel GetLast();
-        public IEnumerable<AnchorViewModel> GetAnchorsInRadius(Point location, double radius);
-        public AnchorLikedViewModel LikeAnchor(string anchorId, int userId);
+        public IEnumerable<AnchorViewModel> GetInRadius(Point location, double radius);
+        public AnchorLikedViewModel Like(string anchorId, int userId);
+        public AnchorDeletedViewModel Delete(string id);
 	}
 }
