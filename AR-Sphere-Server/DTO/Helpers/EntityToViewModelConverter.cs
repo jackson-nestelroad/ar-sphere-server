@@ -65,8 +65,9 @@ namespace ARSphere.DTO.Helpers
             {
                 Id = model.Id,
                 Name = model.Name,
-                Url = model.Url,
-                Promotion = promotion?.ToViewModel(sponsor) ?? null
+                FileName = model.FileName,
+                Promotion = promotion?.ToViewModel(sponsor) ?? null,
+                Cost = model.Cost
             };
         }
 
