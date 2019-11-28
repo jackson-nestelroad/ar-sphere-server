@@ -39,7 +39,7 @@ namespace ARSphere.Hubs
             return _anchorService.GetInRadius(CurrentClient.Location, Radius);
         }
 
-        public async void CreateAnchor(NewAnchorModel anchor)
+        public async Task CreateAnchor(NewAnchorModel anchor)
         {
             var newAnchor = await _anchorService.CreateAndGet(anchor, CurrentClient.UserId);
             Dispatch(newAnchor.Location, c => c.NewNearbyAnchor(newAnchor));

@@ -11,25 +11,39 @@ namespace ClientTest
 {
     class ClientTest
     {
-        private readonly HubConnection connection;
+        private readonly HubConnection Connection;
         private readonly string Url = "https://localhost:44336/connect";
-        // private readonly string Url = "https://ar-sphere-server.azurewebsites.net/connect";
-        private bool Connected = false;
+        // private readonly string Url = "https://ar-sphere-server-2.azurewebsites.net/connect";
 
+        private bool Connected = false;
+        private readonly Dictionary<char, (string, Func<Task>)> Options = new Dictionary<char, (string, Func<Task>)>();
+        
         public ClientTest()
         {
-            connection = new HubConnectionBuilder()
+            Connection = new HubConnectionBuilder()
                 .WithUrl(Url)
                 .Build();
 
-            connection.Closed += async (error) =>
+            Connection.Closed += error =>
             {
                 Console.WriteLine("Connection closed.");
-                if(Connected)
-                {
-                    await connection.StartAsync();
-                }
+                Connected = false;
+                return Task.CompletedTask;
             };
+
+            Connection.On("NewNearbyAnchor", (AnchorViewModel newAnchor) =>
+            {
+                Console.WriteLine($"\nNew nearby anchor! {newAnchor.Id}");
+            });
+
+            Connection.On("Ping", () =>
+            {
+                Console.WriteLine("Ping received.");
+            });
+
+            Options.Add('1', ("Ping", Ping));
+            Options.Add('2', ("Get Nearby Anchors", GetNearbyAnchors));
+            Options.Add('3', ("Create New Anchor", CreateNewAnchor));
         }
 
         public async Task Start()
@@ -37,59 +51,79 @@ namespace ClientTest
             await Connect();
             while (Connected)
             {
-                await Invoke();
-                if (ShouldClose())
+                try
                 {
-                    await Close();
+                    Console.WriteLine();
+                    foreach((char key, var value) in Options)
+                    {
+                        Console.WriteLine($"{key} -- {value.Item1}");
+                    }
+                    while(Connected)
+                    {
+                        Console.Write("Next input: ");
+                        char nextKey = Console.ReadKey().KeyChar;
+                        Console.WriteLine();
+                        if (Options.ContainsKey(nextKey))
+                        {
+                            await Options[nextKey].Item2();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input!");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
 
         private async Task Connect()
         {
-            try
-            {
-                await connection.StartAsync();
-                Connected = true;
-                Console.WriteLine("Connection started.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            await Connection.StartAsync();
+            await Connection.InvokeAsync("SetUserId", 0);
+            Connected = true;
+            Console.WriteLine("Connection started.");
         }
 
         private async Task Close()
         {
-            await connection.StopAsync();
+            await Connection.StopAsync();
             Connected = false;
         }
 
-        private bool ShouldClose()
+        private async Task Ping()
         {
-            Console.Write("Close connection? [Y/n]");
-            char res = Console.ReadKey().KeyChar;
-            Console.WriteLine();
-            return res == 'Y' || res == 'y';
+            string message = "Ping!";
+            string res = await Connection.InvokeAsync<string>("Ping", message);
+            if(res != message)
+            {
+                throw new Exception("Ping failed.");
+            }
+
+            Console.WriteLine("Ping successful.");
         }
 
-        private async Task Invoke()
+        private async Task CreateNewAnchor()
         {
-            try
+            string newAnchorId = $"My_New_Anchor_{new Random().Next()}";
+            await Connection.SendAsync("CreateAnchor", new NewAnchorModel
             {
-                string res = await connection.InvokeAsync<string>("Ping", "Hello world!");
-                Console.WriteLine("Response: " + res);
+                Id = newAnchorId,
+                Longitude = 59,
+                Latitude = 17,
+                Model = 0
+            });
+            Console.WriteLine($"Created anchor {newAnchorId}.");
+        }
 
-                AnchorViewModel lastAnchor = await connection.InvokeAsync<AnchorViewModel>("GetLastAnchor");
-                Console.WriteLine(lastAnchor.Id);
-
-                IEnumerable<AnchorViewModel> nearbyAnchors = await connection.InvokeAsync<IEnumerable<AnchorViewModel>>("GetNearbyAnchors", 59, 17);
-                Console.WriteLine(string.Join(", ", nearbyAnchors.Select(m => m.Id)));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        private async Task GetNearbyAnchors()
+        {
+            IEnumerable<AnchorViewModel> nearbyAnchors = await Connection.InvokeAsync<IEnumerable<AnchorViewModel>>("GetNearbyAnchors", 59, 17);
+            Console.WriteLine($"Anchors found: {string.Join(", ", nearbyAnchors.Select(m => m.Id))}");
         }
     }
 }
