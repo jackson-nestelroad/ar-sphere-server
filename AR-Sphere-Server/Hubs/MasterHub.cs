@@ -56,7 +56,7 @@ namespace ARSphere.Hubs
             var connections = ConnectionsInRange(center);
             foreach (string connectionId in connections)
             {
-                dispatch.BeginInvoke(Clients.Client(connectionId), null, null);
+                dispatch.Invoke(Clients.Client(connectionId));
             }
         }
     }
