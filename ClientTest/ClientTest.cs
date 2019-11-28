@@ -36,11 +36,6 @@ namespace ClientTest
                 Console.WriteLine($"\nNew nearby anchor! {newAnchor.Id}");
             });
 
-            Connection.On("Ping", () =>
-            {
-                Console.WriteLine("Ping received.");
-            });
-
             Options.Add('1', ("Ping", Ping));
             Options.Add('2', ("Get Nearby Anchors", GetNearbyAnchors));
             Options.Add('3', ("Create New Anchor", CreateNewAnchor));
